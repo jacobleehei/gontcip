@@ -35,9 +35,8 @@ type Writer interface {
 	Access() string
 	Status() string
 	Identifier() string
-	WriteIdentifier(interface{}) string
+	WriteIdentifier(input interface{}) gosnmp.SnmpPDU
 }
-
 type readOnlyObject struct {
 	objectType string
 	syntax     gosnmp.Asn1BER
@@ -63,3 +62,12 @@ func (object readAndWriteObject) Syntax() gosnmp.Asn1BER { return object.syntax 
 func (object readAndWriteObject) Access() string         { return string(READ_AND_WRITE) }
 func (object readAndWriteObject) Status() string         { return string(object.status) }
 func (object readAndWriteObject) Identifier() string     { return object.identifier }
+func (object readAndWriteObject) WriteIdentifier(input interface{}) (pdu gosnmp.SnmpPDU, err error) {
+	// Todo Check if object syntax matches input type
+	pdu = gosnmp.SnmpPDU{
+		Value: input,
+		Name:  object.identifier + ".0",
+		Type:  object.syntax,
+	}
+	return
+}
