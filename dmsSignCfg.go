@@ -7,6 +7,17 @@ dmsSignCfg OBJECT IDENTIFIER ::= { dms 1 }
 -- This node is an identifier used to group all objects for DMS sign
 -- configurations that are common to all DMS devices.
 **********************************************************************/
+var SignConfigurationAndCapabilityObjects = []Reader{
+	SignAccessParameter,
+	SignTypeParameter,
+	SignHeightParameter,
+	SignWidthParameter,
+	HorizontalBorderParameter,
+	VerticalBorderParameter,
+	LegendParameter,
+	BeaconTypeParameter,
+	SignTechnologyParameter,
+}
 
 //Indicates the access method to the sign.
 var SignAccessParameter = readOnlyObject{

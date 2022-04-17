@@ -9,6 +9,26 @@ dmsMessage  OBJECT IDENTIFIER ::= { dms 5 }
 -- DMS Message Table functions that are common to DMS devices.
 *****************************************************************************/
 
+var MessageObjects = []Reader{
+	NumberOfPermanentMessagesParameter,
+	NumberOfChangeableMessagesParameter,
+	MaximumNumberOfChangeableMessagesParameter,
+	FreeBytesWithinChangeableMemoryParameter,
+	NumberOfVolatileMessagesParameter,
+	MaximumNumberOfVolatileMessagesParameter,
+	FreeBytesWithinVolatileMemoryParameter,
+	MessageMemoryTypeParameter,
+	MessageNumberParameter,
+	MessageMULTIStringParameter,
+	MessageOwnerParameter,
+	MessageCRCParameter,
+	MessageBeaconParameter,
+	MessagePixelServiceParameter,
+	MessageRunTimePriorityParameter,
+	MessageStatusParameter,
+	ValidateMessageErrorParameter,
+}
+
 // Indicates the current number of Messages stored in non-volatile,
 // non-changeable memory (e.g., EPROM). For CMS and BOS, this is the
 // number of different messages that can be assembled.

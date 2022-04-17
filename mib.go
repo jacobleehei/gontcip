@@ -22,16 +22,16 @@ const (
 )
 
 type Reader interface {
-	Type() string
-	Syntax() string
+	ObjectType() string
+	Syntax() gosnmp.Asn1BER
 	Access() string
 	Status() string
 	Identifier() string
 }
 
 type Writer interface {
-	Type() string
-	Syntax() string
+	ObjectType() string
+	Syntax() gosnmp.Asn1BER
 	Access() string
 	Status() string
 	Identifier() string

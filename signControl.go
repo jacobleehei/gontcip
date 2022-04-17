@@ -9,6 +9,33 @@ signControl  OBJECT IDENTIFIER ::= { dms 6 }
 -- DMS sign control functions that are common to DMS devices.
 ********************************************************************/
 
+var SignControlObjects = []Reader{
+	ControlModeParameter,
+	SoftwareResetParameter,
+	ActivateMessageParameter,
+	MessageDisplayTimeRemainingParameter,
+	MessageTableSourceParameter,
+	MessageRequesterIDParameter,
+	MessageSourceModeParameter,
+	ShortPowerLossRecoveryMessageParameter,
+	LongPowerLossRecoveryMessageParameter,
+	ShortPowerLossTimeDefinitionParameter,
+	ResetMessageParameter,
+	CommunicationsLossMessageParameter,
+	CommunicationLossTimeDefinitionParameter,
+	PowerLossMessageParameter,
+	EndDurationMessageParameter,
+	MemoryManagementParameter,
+	ActivateMessageErrorParameter,
+	MULTISyntaxErrorParameter,
+	PositionOfMULTISyntaxErrorParameter,
+	OtherMULTIErrorParameter,
+	PixelServiceDurationParameter,
+	PixelServiceFrequencyParameter,
+	PixelServiceTimeParameter,
+	MessageCodeOfTheActivationErrorParameter,
+}
+
 //  A value indicating the mode that is currently controlling the
 // sign.
 // The possible modes are:

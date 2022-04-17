@@ -9,6 +9,23 @@ fontDefinition  OBJECT IDENTIFIER ::= { dms 3 }
 -- configurations that are common to DMS devices
 *******************************************************************/
 
+var FontDefinitionObjects = []Reader{
+	NumberOfFontsParameter,
+	FontIndexParameter,
+	FontNumberParameter,
+	FontNameParameter,
+	FontHeightParameter,
+	FontCharacterSpacingParameter,
+	FontLineSpacingParameter,
+	FontVersionIDParameter,
+	FontStatusParameter,
+	MaximumCharactersPerFontParameter,
+	CharacterNumberParameter,
+	CharacterWidthParameter,
+	CharacterBitmapParameter,
+	MaximumCharacterSizeParameter,
+}
+
 // Indicates the maximum number of fonts that the sign can store.
 // See the Specification in association with the supplemental requirements for
 // fonts to determine the number of fonts that the DMS must support

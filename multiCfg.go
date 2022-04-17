@@ -1,5 +1,41 @@
 package gontcip
 
+/************************************************************************
+Multi-Configuration Objects
+multiCfg  OBJECT IDENTIFIER ::= { dms 4 }
+
+-- This subnode is an identifier used to group all objects for support of
+-- MULTI language configuration such as all default tag values.
+************************************************************************/
+
+var MultiConfigurationObjects = []Reader{
+	DefaultBackgroundColorParameter,
+	DefaultForegroundColorParameter,
+	DefaultFlashOnTimeParameter,
+	DefaultFlashOnTimeParameterAtActivation,
+	DefaultFlashOffTimeParameter,
+	DefaultFlashOffTimeParameterAtActivation,
+	DefaultFontParameter,
+	DefaultFontParameterAtActivation,
+	DefaultLineJustificationParameter,
+	DefaultLineJustificationParameterAtActivation,
+	DefaultPageJustificationParameter,
+	DefaultPageJustificationParameterAtActivation,
+	DefaultPageOnTimeParameter,
+	DefaultPageOnTimeParameterAtActivation,
+	DefaultPageOffTimeParameter,
+	DefaultPageOffTimeParameterAtActivation,
+	DefaultBackgroundColorRGBParameter,
+	DefaultBackgroundColorRGBParameterAtActivation,
+	DefaultForegroundColorRGBParameter,
+	DefaultForegroundColorRGBParameterAtActivation,
+	DefaultCharacterSetParameter,
+	ColorSchemeParameter,
+	SupportedMULTITagsParameter,
+	MaximumNumberOfPagesParameter,
+	MaximumMULTIStringLengthParameter,
+}
+
 // Indicates the color of the background shown on the sign for the
 // 'colorClassic' scheme (see the dmsColorScheme object). If a different color
 // scheme is used, a genErr shall be returned. The allowed values are:

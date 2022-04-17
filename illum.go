@@ -8,6 +8,18 @@ illum  OBJECT IDENTIFIER ::= { dms 7 }
 -- sign illumination functions that are common to DMS devices.
 *********************************************************************/
 
+var IlluminationObjects = []Reader{
+	IlluminationControlParameter,
+	MaximumIlluminationPhotocellLevelParameter,
+	StatusOfIlluminationPhotocellLevelParameter,
+	NumberOfIlluminationBrightnessLevelsParameter,
+	StatusOfIlluminationBrightnessLevelParameter,
+	IlluminationManualLevelParameter,
+	IlluminationBrightnessValuesParameter,
+	BrightnessValuesErrorParameter,
+	StatusOfIlluminationLightOutputParameter,
+}
+
 // Indicates the method used to select the Brightness Level.
 //   A DMS may subrange the values supported, as indicated.
 //   other (1) - indicates that the Brightness Level is based on a
@@ -35,6 +47,7 @@ illum  OBJECT IDENTIFIER ::= { dms 7 }
 // When switching to any of the manual modes (manual, manualDirect,
 // manualIndexed) from any other mode, the current brightness level shall
 // automatically be loaded into the dmsIllumManLevel object.
+
 var IlluminationControlParameter = readAndWriteObject{
 	objectType: "dmsIllumControl",
 	syntax:     INTERGER,

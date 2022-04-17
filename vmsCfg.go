@@ -9,6 +9,17 @@ vmsCfg  OBJECT IDENTIFIER ::= { dms 2 }
 -- VMS sign configurations that are common to all VMS devices.
 *****************************************************************************/
 
+var VMSConfigurationObjects = []Reader{
+	CharacterHeightInPixelsParameter,
+	CharacterWidthInPixelsParameter,
+	SignHeightInPixelsParameter,
+	SignWidthInPixelsParameter,
+	HorizontalPitchParameter,
+	HorizontalPitchParameter,
+	VerticalPitchParameter,
+	MonochromeColorParameter,
+}
+
 // Indicates the height of a single character in Pixels.
 // The value zero (0) indicates a variable character height,
 // which implies a full-matrix sign
