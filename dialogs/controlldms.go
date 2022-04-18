@@ -1,6 +1,8 @@
 package dialogs
 
 import (
+	"errors"
+
 	"github.com/gosnmp/gosnmp"
 	"github.com/jacobleehei/gontcip"
 )
@@ -23,7 +25,7 @@ func ActivatingMessage(
 	//    - message CRC,
 	//    - message source address
 	// 	also feel free to See Clause 4.4.6.4 from https://www.ntcip.org/file/2018/11/NTCIP1203v03f.pdf
-	dmsActivateMessageStruct []byte,
+	duration, priority, messageMemoryType, messageNumber int,
 ) (results []string, err error) {
 	if err = dms.Connect(); err != nil {
 		return
@@ -35,7 +37,40 @@ func ActivatingMessage(
 	// Note: dmsActivateMessage.0 is a structure that contains the following information: message type
 	// (permanent, changeable, blank, etc.), message number, duration, activation priority, a CRC of the
 	// message contents, and a network address of the requester.
-	activeMessagePDU, err := gontcip.ActivateMessageParameter.WriteIdentifier(dmsActivateMessageStruct)
+	var multiStringOnTargetMessageNumber string
+	var beaconOnTargetMessageNumber int
+	var pixelserviceOnTargetMessageNumber int
+
+	getResults, err := dms.Get([]string{
+		gontcip.MakeMessageMULTIStringParameterOID(messageMemoryType, messageNumber),
+		gontcip.MakeMessageBeaconParameterOID(messageMemoryType, messageNumber),
+		gontcip.MakeMessagePixelServiceParameterOID(messageMemoryType, messageNumber),
+	})
+	if err != nil {
+		return
+	}
+	for _, variable := range getResults.Variables {
+		switch variable.Name {
+		case gontcip.MakeMessageMULTIStringParameterOID(messageMemoryType, messageNumber):
+			multiStringOnTargetMessageNumber = string(variable.Value.([]uint8))
+		case gontcip.MakeMessageBeaconParameterOID(messageMemoryType, messageNumber):
+			beaconOnTargetMessageNumber = variable.Value.(int)
+		case gontcip.MakeMessagePixelServiceParameterOID(messageMemoryType, messageNumber):
+			pixelserviceOnTargetMessageNumber = variable.Value.(int)
+		default:
+			return []string{}, errors.New("no avaliable results")
+		}
+	}
+
+	activeMessageCode, err := EncodeActivateMessageCode(
+		multiStringOnTargetMessageNumber, beaconOnTargetMessageNumber, pixelserviceOnTargetMessageNumber,
+		messageMemoryType, duration, priority, messageNumber,
+		"127.0.0.1",
+	)
+	if err != nil {
+		return
+	}
+	activeMessagePDU, err := gontcip.ActivateMessageParameter.WriteIdentifier(activeMessageCode)
 	if err != nil {
 		return
 	}

@@ -1,5 +1,7 @@
 package gontcip
 
+import "fmt"
+
 /*****************************************************************************
 Message Objects
 
@@ -183,6 +185,10 @@ var MessageMULTIStringParameter = readAndWriteObject{
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.3",
 }
 
+func MakeMessageMULTIStringParameterOID(messageMemoryType, messageNumber int) string {
+	return fmt.Sprintf(".%s.%d.%d", MessageMULTIStringParameter.identifier, messageMemoryType, messageNumber)
+}
+
 // Indicates the owner or author of this row.
 var MessageOwnerParameter = readAndWriteObject{
 	objectType: "dmsMessageOwner",
@@ -225,6 +231,10 @@ var MessageBeaconParameter = readAndWriteObject{
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.6",
 }
 
+func MakeMessageBeaconParameterOID(messageMemoryType, messageNumber int) string {
+	return fmt.Sprintf(".%s.%d.%d", MessageBeaconParameter.identifier, messageMemoryType, messageNumber)
+}
+
 // Indicates whether pixel service shall be enabled (1) or
 // disabled (0) while this message is active. When the primary index is
 // 'schedule', 'blank', 'currentBuffer', or 'permanent', this object shall
@@ -241,6 +251,10 @@ var MessagePixelServiceParameter = readAndWriteObject{
 	syntax:     INTERGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.7",
+}
+
+func MakeMessagePixelServiceParameterOID(messageMemoryType, messageNumber int) string {
+	return fmt.Sprintf(".%s.%d.%d", MessagePixelServiceParameter.identifier, messageMemoryType, messageNumber)
 }
 
 // Indicates the run time priority assigned to a particular
