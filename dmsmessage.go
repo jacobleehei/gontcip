@@ -1,6 +1,10 @@
 package gontcip
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/gosnmp/gosnmp"
+)
 
 /*****************************************************************************
 Message Objects
@@ -10,6 +14,16 @@ dmsMessage  OBJECT IDENTIFIER ::= { dms 5 }
 -- This node is an identifier used to group all objects for support of
 -- DMS Message Table functions that are common to DMS devices.
 *****************************************************************************/
+type dmsMessageParameters readAndWriteObject
+
+func (object dmsMessageParameters) ObjectType() string     { return object.objectType }
+func (object dmsMessageParameters) Syntax() gosnmp.Asn1BER { return object.syntax }
+func (object dmsMessageParameters) Access() string         { return string(READ_AND_WRITE) }
+func (object dmsMessageParameters) Status() string         { return string(object.status) }
+func (object dmsMessageParameters) Identifier() string     { return object.identifier }
+func (object dmsMessageParameters) MakeOID(messageMemoryType, messageNumber int) string {
+	return fmt.Sprintf(".%s.%d.%d", object.identifier, messageMemoryType, messageNumber)
+}
 
 var MessageObjects = []Reader{
 	NumberOfPermanentMessagesParameter,
@@ -36,7 +50,7 @@ var MessageObjects = []Reader{
 // number of different messages that can be assembled.
 // See the Specifications in association with Requirement 3.6.7.1 to determine
 // the messages that must be supported.
-var NumberOfPermanentMessagesParameter = readOnlyObject{
+var NumberOfPermanentMessagesParameter = dmsMessageParameters{
 	objectType: "dmsNumPermanentMsg",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -178,21 +192,17 @@ var MessageNumberParameter = readOnlyObject{
 // to a GET-request (regardless whether this message is actually being
 // displayed). The value of the MULTI string is not allowed to have any null
 // character.
-var MessageMULTIStringParameter = readAndWriteObject{
+var MessageMULTIStringParameter = dmsMessageParameters{
 	objectType: "dmsMessageMultiString",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.3",
 }
 
-func MakeMessageMULTIStringParameterOID(messageMemoryType, messageNumber int) string {
-	return fmt.Sprintf(".%s.%d.%d", MessageMULTIStringParameter.identifier, messageMemoryType, messageNumber)
-}
-
 // Indicates the owner or author of this row.
-var MessageOwnerParameter = readAndWriteObject{
+var MessageOwnerParameter = dmsMessageParameters{
 	objectType: "dmsMessageOwner",
-	syntax:     DISPLAY_STRING,
+	syntax:     OCTET_STRING,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.4",
 }
@@ -224,7 +234,7 @@ var MessageCRCParameter = readOnlyObject{
 // GET-request (regardless whether this message is actually being displayed).
 // When the dmsMessageMemoryType is 'permanent', the object shall return the
 // dmsMessageBeacon setting of the factory-preset value in response to a GET-request.
-var MessageBeaconParameter = readAndWriteObject{
+var MessageBeaconParameter = dmsMessageParameters{
 	objectType: "dmsMessageBeacon",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -246,7 +256,7 @@ func MakeMessageBeaconParameterOID(messageMemoryType, messageNumber int) string 
 // When the primary index is 'permanent', the object shall return the
 // dmsMessagePixelService setting of the factory-preset value in response to a
 // GET-request.
-var MessagePixelServiceParameter = readAndWriteObject{
+var MessagePixelServiceParameter = dmsMessageParameters{
 	objectType: "dmsMessagePixelService",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -267,7 +277,7 @@ func MakeMessagePixelServiceParameterOID(messageMemoryType, messageNumber int) s
 // When the dmsMessageMemoryType is 'permanent', the object shall return the
 // dmsMessageRunTimePriority setting of the factory-preset value in response to
 // a GET-request.
-var MessageRunTimePriorityParameter = readAndWriteObject{
+var MessageRunTimePriorityParameter = dmsMessageParameters{
 	objectType: "dmsMessageRunTimePriority",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -277,7 +287,22 @@ var MessageRunTimePriorityParameter = readAndWriteObject{
 // Indicates the current state of the message. This state-machine
 // allows for defining a message, validating a message, and deleting a message.
 // See Section 4.3.4 for additional details regarding the state-machine.
-var MessageStatusParameter = readAndWriteObject{
+type messageStatusFormat int
+
+const (
+	NotUsed     messageStatusFormat = 1
+	Modifying   messageStatusFormat = 2
+	Validating  messageStatusFormat = 3
+	Valid       messageStatusFormat = 4
+	Error       messageStatusFormat = 5
+	ModifyReq   messageStatusFormat = 6
+	ValidateReq messageStatusFormat = 7
+	NotUsedReq  messageStatusFormat = 8
+)
+
+func (m messageStatusFormat) Int() int { return int(m) }
+
+var MessageStatusParameter = dmsMessageParameters{
 	objectType: "dmsMessageStatus",
 	syntax:     INTERGER,
 	status:     MANDATORY,

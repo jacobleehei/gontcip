@@ -1,23 +1,21 @@
 package dialogs
 
 import (
-	"reflect"
 	"testing"
 	"time"
 
 	"github.com/gosnmp/gosnmp"
 )
 
-// for test
-// dms: &gosnmp.GoSNMP{
-// 					Target:    "192.168.9.76",
-// 					Port:      161,
-// 					Community: "public",
-// 					Timeout:   2 * time.Second,
-// 					Retries:   1,
-// 					Version:   gosnmp.Version1,
-// 					MaxOids:   500,
-// 				},
+var test_dms = &gosnmp.GoSNMP{
+	Target:    "192.168.9.76",
+	Port:      161,
+	Community: "public",
+	Timeout:   2 * time.Second,
+	Retries:   1,
+	Version:   gosnmp.Version1,
+	MaxOids:   500,
+}
 
 func TestActivatingMessage(t *testing.T) {
 	type args struct {
@@ -37,33 +35,62 @@ func TestActivatingMessage(t *testing.T) {
 		{
 			name: "test_1",
 			args: args{
-				dms: &gosnmp.GoSNMP{
-					Target:    "192.168.9.76",
-					Port:      161,
-					Community: "public",
-					Timeout:   2 * time.Second,
-					Retries:   1,
-					Version:   gosnmp.Version1,
-					MaxOids:   500,
-				},
+				dms:               test_dms,
 				duration:          65535,
 				priority:          255,
 				messageMemoryType: 3,
-				messageNumber:     5,
+				messageNumber:     1,
 			},
-			wantResults: []string{},
-			wantErr:     false,
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotResults, err := ActivatingMessage(tt.args.dms, tt.args.duration, tt.args.priority, tt.args.messageMemoryType, tt.args.messageNumber)
+			err := ActivatingMessage(tt.args.dms, tt.args.duration, tt.args.priority, tt.args.messageMemoryType, tt.args.messageNumber)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ActivatingMessage() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(gotResults, tt.wantResults) {
-				t.Errorf("ActivatingMessage() = %v, want %v", gotResults, tt.wantResults)
+		})
+	}
+}
+
+func TestDefiningMessage(t *testing.T) {
+	type args struct {
+		dms               *gosnmp.GoSNMP
+		messageMemoryType int
+		messageNumber     int
+		mutiString        string
+		ownerAddress      string
+		priority          int
+		beacon            int
+		pixelService      int
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test_1",
+			args: args{
+				dms:               test_dms,
+				messageMemoryType: 3,
+				messageNumber:     1,
+				mutiString:        "TESTING[nl]",
+				ownerAddress:      "127.0.0.1",
+				priority:          255,
+				beacon:            0,
+				pixelService:      0,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := DefiningMessage(tt.args.dms, tt.args.messageMemoryType, tt.args.messageNumber, tt.args.mutiString, tt.args.ownerAddress, tt.args.priority, tt.args.beacon, tt.args.pixelService); (err != nil) != tt.wantErr {
+				t.Errorf("DefiningMessage() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

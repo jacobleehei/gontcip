@@ -1,6 +1,11 @@
 package gontcip
 
-import "github.com/gosnmp/gosnmp"
+import (
+	"strings"
+
+	"github.com/gosnmp/gosnmp"
+	"github.com/pkg/errors"
+)
 
 const (
 	INTERGER       = gosnmp.Integer
@@ -70,4 +75,22 @@ func (object readAndWriteObject) WriteIdentifier(input interface{}) (pdu gosnmp.
 		Type:  object.syntax,
 	}
 	return
+}
+
+func GetSingleOID(dms *gosnmp.GoSNMP, oid string) (result gosnmp.SnmpPDU, err error) {
+	packageResult, err := dms.Get([]string{oid})
+	if err != nil {
+		return result, err
+	}
+	if packageResult.Variables[0].Value == nil {
+		packageResult, err = dms.Get([]string{oid})
+		if err != nil {
+			return result, err
+		}
+	}
+
+	if !strings.Contains(packageResult.Variables[0].Name, oid) {
+		return result, errors.New(gosnmp.NoSuchName.String())
+	}
+	return packageResult.Variables[0], nil
 }
