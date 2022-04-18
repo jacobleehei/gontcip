@@ -45,20 +45,20 @@ func ActivatingMessage(
 	var pixelserviceOnTargetMessageNumber int
 
 	getResults, err := dms.Get([]string{
-		gontcip.MessageMULTIStringParameter.MakeOID(messageMemoryType, messageNumber),
-		gontcip.MessageBeaconParameter.MakeOID(messageMemoryType, messageNumber),
-		gontcip.MessagePixelServiceParameter.MakeOID(messageMemoryType, messageNumber),
+		gontcip.MessageMULTIStringParameter.Identifier(messageMemoryType, messageNumber),
+		gontcip.MessageBeaconParameter.Identifier(messageMemoryType, messageNumber),
+		gontcip.MessagePixelServiceParameter.Identifier(messageMemoryType, messageNumber),
 	})
 	if err != nil {
 		return errors.Wrap(err, "get dms failed")
 	}
 	for _, variable := range getResults.Variables {
 		switch variable.Name {
-		case gontcip.MessageMULTIStringParameter.MakeOID(messageMemoryType, messageNumber):
+		case gontcip.MessageMULTIStringParameter.Identifier(messageMemoryType, messageNumber):
 			multiStringOnTargetMessageNumber = string(variable.Value.([]uint8))
-		case gontcip.MessageBeaconParameter.MakeOID(messageMemoryType, messageNumber):
+		case gontcip.MessageBeaconParameter.Identifier(messageMemoryType, messageNumber):
 			beaconOnTargetMessageNumber = variable.Value.(int)
-		case gontcip.MessagePixelServiceParameter.MakeOID(messageMemoryType, messageNumber):
+		case gontcip.MessagePixelServiceParameter.Identifier(messageMemoryType, messageNumber):
 			pixelserviceOnTargetMessageNumber = variable.Value.(int)
 		default:
 			return errors.New("no avaliable results")
@@ -139,7 +139,7 @@ func DefiningMessage(
 	}
 
 	// The management station shall SET dmsMessageStatus.x.y to 'modifyReq'.
-	dmsMessageStatusName := gontcip.MessageStatusParameter.MakeOID(messageMemoryType, messageNumber)
+	dmsMessageStatusName := gontcip.MessageStatusParameter.Identifier(messageMemoryType, messageNumber)
 	_, err := dms.Set([]gosnmp.SnmpPDU{{
 		Value: gontcip.ModifyReq.Int(),
 		Name:  dmsMessageStatusName,
@@ -169,17 +169,17 @@ func DefiningMessage(
 	_, err = dms.Set(
 		[]gosnmp.SnmpPDU{{
 			Value: mutiString,
-			Name:  gontcip.MessageMULTIStringParameter.MakeOID(messageMemoryType, messageNumber),
+			Name:  gontcip.MessageMULTIStringParameter.Identifier(messageMemoryType, messageNumber),
 			Type:  gontcip.MessageMULTIStringParameter.Syntax(),
 		},
 			{
 				Value: ownerAddress,
-				Name:  gontcip.MessageOwnerParameter.MakeOID(messageMemoryType, messageNumber),
+				Name:  gontcip.MessageOwnerParameter.Identifier(messageMemoryType, messageNumber),
 				Type:  gontcip.MessageOwnerParameter.Syntax(),
 			},
 			{
 				Value: priority,
-				Name:  gontcip.MessageRunTimePriorityParameter.MakeOID(messageMemoryType, messageNumber),
+				Name:  gontcip.MessageRunTimePriorityParameter.Identifier(messageMemoryType, messageNumber),
 				Type:  gontcip.MessageRunTimePriorityParameter.Syntax(),
 			},
 		})
@@ -195,7 +195,7 @@ func DefiningMessage(
 	// (0).
 	_, err = dms.Set([]gosnmp.SnmpPDU{{
 		Value: beacon,
-		Name:  gontcip.MessageBeaconParameter.MakeOID(messageMemoryType, messageNumber),
+		Name:  gontcip.MessageBeaconParameter.Identifier(messageMemoryType, messageNumber),
 		Type:  gontcip.MessageBeaconParameter.Syntax(),
 	}})
 	if err != nil {
@@ -210,7 +210,7 @@ func DefiningMessage(
 	// (0).
 	_, err = dms.Set([]gosnmp.SnmpPDU{{
 		Value: pixelService,
-		Name:  gontcip.MessagePixelServiceParameter.MakeOID(messageMemoryType, messageNumber),
+		Name:  gontcip.MessagePixelServiceParameter.Identifier(messageMemoryType, messageNumber),
 		Type:  gontcip.MessagePixelServiceParameter.Syntax(),
 	}})
 	if err != nil {

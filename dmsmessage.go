@@ -20,13 +20,18 @@ func (object dmsMessageParameters) ObjectType() string     { return object.objec
 func (object dmsMessageParameters) Syntax() gosnmp.Asn1BER { return object.syntax }
 func (object dmsMessageParameters) Access() string         { return string(READ_AND_WRITE) }
 func (object dmsMessageParameters) Status() string         { return string(object.status) }
-func (object dmsMessageParameters) Identifier() string     { return object.identifier }
-func (object dmsMessageParameters) MakeOID(messageMemoryType, messageNumber int) string {
+func (object dmsMessageParameters) Identifier(messageMemoryType, messageNumber int) string {
 	return fmt.Sprintf(".%s.%d.%d", object.identifier, messageMemoryType, messageNumber)
 }
 
 var MessageObjects = []Reader{
-	NumberOfPermanentMessagesParameter,
+	// NumberOfPermanentMessagesParameter,
+	// MessageMULTIStringParameter,
+	// MessageOwnerParameter,
+	// MessageBeaconParameter,
+	// MessagePixelServiceParameter,
+	// MessageRunTimePriorityParameter,
+	// MessageStatusParameter,
 	NumberOfChangeableMessagesParameter,
 	MaximumNumberOfChangeableMessagesParameter,
 	FreeBytesWithinChangeableMemoryParameter,
@@ -35,13 +40,7 @@ var MessageObjects = []Reader{
 	FreeBytesWithinVolatileMemoryParameter,
 	MessageMemoryTypeParameter,
 	MessageNumberParameter,
-	MessageMULTIStringParameter,
-	MessageOwnerParameter,
 	MessageCRCParameter,
-	MessageBeaconParameter,
-	MessagePixelServiceParameter,
-	MessageRunTimePriorityParameter,
-	MessageStatusParameter,
 	ValidateMessageErrorParameter,
 }
 
@@ -130,40 +129,40 @@ var FreeBytesWithinVolatileMemoryParameter = readOnlyObject{
 
 // The definitions of the enumerated values are:
 //   other - any other type of memory type that is not listed within one of
-//      the values below, refer to device manual;
+//   the values below, refer to device manual;
 //   permanent - non-volatile and non-changeable;
 //   changeable - non-volatile and changeable;
 //   volatile - volatile and changeable;
 //   currentBuffer - contains the information regarding the currently
-//      displayed message (basically a copy of the message table row
-//      contents of the message that was successfully activated).
-//      Only one entry in the table can have the
-//      value of currentBuffer and the value of the dmsMessageNumber
-//      object shall be one (1). The content of the
-//      dmsMessageMultiString object shall be the currently displayed
-//      message (including a scheduled message), not the content of a
-//      failed message activation attempt;
-//     schedule - this entry contains information regarding the currently
-//     scheduled message as determined by the time-base scheduler (if
-//     present). Only one entry in the table can have the value of
-//     'schedule' and the value of dmsMessageNumber for this entry
-//     shall be 1. Displaying a message through this table row shall set
-//     the dmsMsgSourceMode object value to 'timebasedScheduler'.
-//     When no message is currently active based upon the schedule
-//     or if the schedule currently does not point to any message within
-//     the message table, the schedule entry shall contain a copy of
-//     dmsMessageMemoryType 7 (blank) with a dmsMessageNumber value of 1.
-//     blank - there shall be 255 (message numbers 1 through 255)
-//     pre-defined, static rows with this message type. These rows are
-//     defined so that message codes (e.g., objects with SYNTAX of
-//     either MessageIDCode or MessageActivationCode) can blank the
-//     sign at a stated run-time priority. The run-time priority of the blank
-//     message is equal to the message number (e.g., blank message
-// 	 number 1 has a run time priority of 1 and so on). The
-//     dmsMessageCRC for all messages of this type shall be 0x0000 and
-//     the dmsMessageMultiString shall be an OCTET STRING with a length of
-//     zero (0). The activation priority shall be determined from the
-//     activation priority of the MessageActivationCode.
+//   displayed message (basically a copy of the message table row
+//   contents of the message that was successfully activated).
+//   Only one entry in the table can have the
+//   value of currentBuffer and the value of the dmsMessageNumber
+//   object shall be one (1). The content of the
+//   dmsMessageMultiString object shall be the currently displayed
+//   message (including a scheduled message), not the content of a
+//   failed message activation attempt;
+//   schedule - this entry contains information regarding the currently
+//   scheduled message as determined by the time-base scheduler (if
+//   present). Only one entry in the table can have the value of
+//   'schedule' and the value of dmsMessageNumber for this entry
+//   shall be 1. Displaying a message through this table row shall set
+//   the dmsMsgSourceMode object value to 'timebasedScheduler'.
+//   When no message is currently active based upon the schedule
+//   or if the schedule currently does not point to any message within
+//   the message table, the schedule entry shall contain a copy of
+//   dmsMessageMemoryType 7 (blank) with a dmsMessageNumber value of 1.
+//   blank - there shall be 255 (message numbers 1 through 255)
+//   pre-defined, static rows with this message type. These rows are
+//   defined so that message codes (e.g., objects with SYNTAX of
+//   either MessageIDCode or MessageActivationCode) can blank the
+//   sign at a stated run-time priority. The run-time priority of the blank
+//   message is equal to the message number (e.g., blank message
+//   number 1 has a run time priority of 1 and so on). The
+//   dmsMessageCRC for all messages of this type shall be 0x0000 and
+//   the dmsMessageMultiString shall be an OCTET STRING with a length of
+//   zero (0). The activation priority shall be determined from the
+//   activation priority of the MessageActivationCode.
 var MessageMemoryTypeParameter = readOnlyObject{
 	objectType: "dmsMessageMemoryType",
 	syntax:     INTERGER,
