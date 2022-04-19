@@ -10,20 +10,20 @@ vmsCfg  OBJECT IDENTIFIER ::= { dms 2 }
 *****************************************************************************/
 
 var VMSConfigurationObjects = []Reader{
-	CharacterHeightInPixelsParameter,
-	CharacterWidthInPixelsParameter,
-	SignHeightInPixelsParameter,
-	SignWidthInPixelsParameter,
-	HorizontalPitchParameter,
-	HorizontalPitchParameter,
-	VerticalPitchParameter,
-	MonochromeColorParameter,
+	VmsCharacterHeightPixels,
+	VmsCharacterWidthPixels,
+	VmsSignHeightPixels,
+	VmsSignWidthPixels,
+	VmsHorizontalPitch,
+	VmsHorizontalPitch,
+	VmsVerticalPitch,
+	MonochromeColor,
 }
 
 // Indicates the height of a single character in Pixels.
 // The value zero (0) indicates a variable character height,
 // which implies a full-matrix sign
-var CharacterHeightInPixelsParameter = readOnlyObject{
+var VmsCharacterHeightPixels = readOnlyObject{
 	objectType: "vmsCharacterHeightPixels",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -33,7 +33,7 @@ var CharacterHeightInPixelsParameter = readOnlyObject{
 // Indicates the width of a single character in Pixels.
 // The value zero (0) indicates a variable character
 // width, which implies either a full-matrix or line-matrix sign.
-var CharacterWidthInPixelsParameter = readOnlyObject{
+var VmsCharacterWidthPixels = readOnlyObject{
 	objectType: "vmsCharacterWidthPixels",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -41,7 +41,7 @@ var CharacterWidthInPixelsParameter = readOnlyObject{
 }
 
 //Indicates the number of rows of pixels for the entire sign.
-var SignHeightInPixelsParameter = readOnlyObject{
+var VmsSignHeightPixels = readOnlyObject{
 	objectType: "vmsSignHeightPixels",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -49,7 +49,7 @@ var SignHeightInPixelsParameter = readOnlyObject{
 }
 
 //Indicates the number of columns of pixels for the entire sign.
-var SignWidthInPixelsParameter = readOnlyObject{
+var VmsSignWidthPixels = readOnlyObject{
 	objectType: "vmsSignWidthPixels",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -60,7 +60,7 @@ var SignWidthInPixelsParameter = readOnlyObject{
 // to the center of the neighboring pixel in millimeters. The horizontal pitch
 // on a character matrix DMS does not apply to the spacing between characters
 // but does apply to the distance between pixels within a character.
-var HorizontalPitchParameter = readOnlyObject{
+var VmsHorizontalPitch = readOnlyObject{
 	objectType: "vmsHorizontalPitch",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -73,7 +73,7 @@ var HorizontalPitchParameter = readOnlyObject{
 // the distance between pixels within a line. The vertical pitch on a character
 // matrix DMS does not apply to the spacing between characters but does apply to
 // the distance between pixels within a character.
-var VerticalPitchParameter = readOnlyObject{
+var VmsVerticalPitch = readOnlyObject{
 	objectType: "vmsVerticalPitch",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -88,7 +88,7 @@ var VerticalPitchParameter = readOnlyObject{
 // blue component values of the color when the pixels are turned 'OFF'. If the
 // sign is a non-monochrome sign, then the value of this object shall be an
 // octet string of six zeros (0x00 0x00 0x00 0x00 0x00 0x00).
-var MonochromeColorParameter = readOnlyObject{
+var MonochromeColor = readOnlyObject{
 	objectType: "monochromeColor",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,

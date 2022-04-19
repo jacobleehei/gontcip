@@ -7,5 +7,5 @@ func Format(objects Reader, getResult interface{}) (result interface{}, err erro
 
 // Mapping parameters for formatting
 var formatMapping = map[string]func(getResult interface{}) (result interface{}, err error){
-	ShortErrorStatusParameter.ObjectType(): formatShortErrorStatusParameter,
+	ShortErrorStatus.ObjectType(): formatShortErrorStatusParameter,
 }

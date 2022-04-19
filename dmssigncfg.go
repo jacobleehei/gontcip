@@ -8,19 +8,19 @@ dmsSignCfg OBJECT IDENTIFIER ::= { dms 1 }
 -- configurations that are common to all DMS devices.
 **********************************************************************/
 var SignConfigurationAndCapabilityObjects = []Reader{
-	SignAccessParameter,
-	SignTypeParameter,
-	SignHeightParameter,
-	SignWidthParameter,
-	HorizontalBorderParameter,
-	VerticalBorderParameter,
-	LegendParameter,
-	BeaconTypeParameter,
-	SignTechnologyParameter,
+	DmsSignAccess,
+	DmsSignType,
+	DmsSignHeight,
+	DmsSignWidth,
+	DmsHorizontalBorder,
+	DmsVerticalBorder,
+	DmsLegend,
+	DmsBeaconType,
+	DmsSignTechnology,
 }
 
 //Indicates the access method to the sign.
-var SignAccessParameter = readOnlyObject{
+var DmsSignAccess = readOnlyObject{
 	objectType: "dmsSignAccess",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -28,7 +28,7 @@ var SignAccessParameter = readOnlyObject{
 }
 
 //Indicates the type of sign.
-var SignTypeParameter = readOnlyObject{
+var DmsSignType = readOnlyObject{
 	objectType: "dmsSignType",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -36,7 +36,7 @@ var SignTypeParameter = readOnlyObject{
 }
 
 //Indicates the sign height in millimeters including the border (dmsVerticalBorder).
-var SignHeightParameter = readOnlyObject{
+var DmsSignHeight = readOnlyObject{
 	objectType: "dmsSignHeight",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -44,7 +44,7 @@ var SignHeightParameter = readOnlyObject{
 }
 
 //Indicates the sign width in millimeters including the border (dmsHorizontalBorder).
-var SignWidthParameter = readOnlyObject{
+var DmsSignWidth = readOnlyObject{
 	objectType: "dmsSignWidth",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -52,7 +52,7 @@ var SignWidthParameter = readOnlyObject{
 }
 
 //Indicates the minimum border distance, in millimeters, that exists on the left and right sides of the sign.
-var HorizontalBorderParameter = readOnlyObject{
+var DmsHorizontalBorder = readOnlyObject{
 	objectType: "dmsHorizontalBorder",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -60,7 +60,7 @@ var HorizontalBorderParameter = readOnlyObject{
 }
 
 //Indicates the minimum border distance, in millimeters, that exists on the top and bottom of the sign.
-var VerticalBorderParameter = readOnlyObject{
+var DmsVerticalBorder = readOnlyObject{
 	objectType: "dmsVerticalBorder",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -68,7 +68,7 @@ var VerticalBorderParameter = readOnlyObject{
 }
 
 //Indicates if a Legend is shown on the sign
-var LegendParameter = readOnlyObject{
+var DmsLegend = readOnlyObject{
 	objectType: "dmsLegend",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -76,7 +76,7 @@ var LegendParameter = readOnlyObject{
 }
 
 //Indicates the configuration of the type, numbers and flashing patterns of beacons on a sign.
-var BeaconTypeParameter = readOnlyObject{
+var DmsBeaconType = readOnlyObject{
 	objectType: "dmsBeaconType",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -84,7 +84,7 @@ var BeaconTypeParameter = readOnlyObject{
 }
 
 //Indicates the utilized technology in a bitmap format  (Hybrids will have to set the bits for all technologies that the sign utilizes).
-var SignTechnologyParameter = readOnlyObject{
+var DmsSignTechnology = readOnlyObject{
 	objectType: "dmsSignTechnology",
 	syntax:     INTERGER,
 	status:     MANDATORY,

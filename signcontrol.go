@@ -10,30 +10,30 @@ signControl  OBJECT IDENTIFIER ::= { dms 6 }
 ********************************************************************/
 
 var SignControlObjects = []Reader{
-	ControlModeParameter,
-	SoftwareResetParameter,
-	ActivateMessageParameter,
-	MessageDisplayTimeRemainingParameter,
-	MessageTableSourceParameter,
-	MessageRequesterIDParameter,
-	MessageSourceModeParameter,
-	ShortPowerLossRecoveryMessageParameter,
-	LongPowerLossRecoveryMessageParameter,
-	ShortPowerLossTimeDefinitionParameter,
-	ResetMessageParameter,
-	CommunicationsLossMessageParameter,
-	CommunicationLossTimeDefinitionParameter,
-	PowerLossMessageParameter,
-	EndDurationMessageParameter,
-	MemoryManagementParameter,
-	ActivateMessageErrorParameter,
-	MULTISyntaxErrorParameter,
-	PositionOfMULTISyntaxErrorParameter,
-	OtherMULTIErrorParameter,
-	PixelServiceDurationParameter,
-	PixelServiceFrequencyParameter,
-	PixelServiceTimeParameter,
-	MessageCodeOfTheActivationErrorParameter,
+	DmsControlMode,
+	DmsSWReset,
+	DmsActivateMessage,
+	DmsMessageTimeRemaining,
+	DmsMsgTableSource,
+	DmsMsgRequesterID,
+	DmsMsgSourceMode,
+	DmsShortPowerRecoveryMessage,
+	DmsLongPowerRecoveryMessage,
+	DmsShortPowerLossTime,
+	DmsResetMessage,
+	DmsCommunicationsLossMessage,
+	DmsTimeCommLoss,
+	DmsPowerLossMessage,
+	DmsEndDurationMessage,
+	DmsMemoryMgmt,
+	DmsActivateMsgError,
+	DmsMultiSyntaxError,
+	DmsMultiSyntaxErrorPosition,
+	DmsMultiOtherErrorDescription,
+	VmsPixelServiceDuration,
+	VmsPixelServiceFrequency,
+	VmsPixelServiceTime,
+	DmsActivateErrorMsgCode,
 }
 
 //  A value indicating the mode that is currently controlling the
@@ -49,7 +49,7 @@ var SignControlObjects = []Reader{
 //   simulation  - (deprecated) controller is in a mode where it accepts every
 //      command and it pretends that it would execute them but this does not
 //      happen because the controller only simulates.
-var ControlModeParameter = readAndWriteObject{
+var DmsControlMode = readAndWriteObject{
 	objectType: "dmsControlMode",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -60,7 +60,7 @@ var ControlModeParameter = readAndWriteObject{
 // execution of the controller reset shall set this object to the value 0.
 // Setting this object to a value of 1 causes the controller to reset. Value
 // zero (0) = no reset, value one (1) = reset.
-var SoftwareResetParameter = readAndWriteObject{
+var DmsSWReset = readAndWriteObject{
 	objectType: "dmsSWReset",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -107,7 +107,7 @@ var SoftwareResetParameter = readAndWriteObject{
 // illumination will be off. As soon as the DMS determines that the
 // 'criticalTemperature' alarm is no longer present, the DMS shall display the
 // message stored in the currentBuffer.
-var ActivateMessageParameter = readAndWriteObject{
+var DmsActivateMessage = readAndWriteObject{
 	objectType: "dmsActivateMessage",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -130,7 +130,7 @@ var ActivateMessageParameter = readAndWriteObject{
 // A SET operation on this object shall allow a Central Computer to extend or
 // shorten the duration of the message. Setting this object to zero (0) shall
 // result in the immediate display of the dmsEndDurationMessage.
-var MessageDisplayTimeRemainingParameter = readAndWriteObject{
+var DmsMessageTimeRemaining = readAndWriteObject{
 	objectType: "dmsMessageTimeRemaining",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -143,7 +143,7 @@ var MessageDisplayTimeRemainingParameter = readAndWriteObject{
 // this object contains the message ID code of the message that was copied into
 // the 'currentBuffer'. This value can only be of message type 'permanent',
 // 'volatile', 'changeable', or 'blank'.
-var MessageTableSourceParameter = readOnlyObject{
+var DmsMsgTableSource = readOnlyObject{
 	objectType: "dmsMsgTableSource",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -154,7 +154,7 @@ var MessageTableSourceParameter = readOnlyObject{
 // used to activate the current message. If the current message was not
 // activated by the dmsActivateMessage-object, then the value of this object
 // shall be zero (0).
-var MessageRequesterIDParameter = readOnlyObject{
+var DmsMsgRequesterID = readOnlyObject{
 	objectType: "dmsMsgRequesterID",
 	syntax:     DISPLAY_STRING,
 	status:     MANDATORY,
@@ -197,7 +197,7 @@ var MessageRequesterIDParameter = readOnlyObject{
 //      DURING power loss.
 //   endDuration (14) - the currently displayed message was activated based on
 //      the settings within the dmsEndDurationMessage object.
-var MessageSourceModeParameter = readAndWriteObject{
+var DmsMsgSourceMode = readAndWriteObject{
 	objectType: "dmsMsgSourceMode",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -216,7 +216,7 @@ var MessageSourceModeParameter = readAndWriteObject{
 // from the message table row specified by this object.
 // The length of time that defines a short power loss is indicated in the
 // dmsShortPowerLossTime-object.
-var ShortPowerLossRecoveryMessageParameter = readAndWriteObject{
+var DmsShortPowerRecoveryMessage = readAndWriteObject{
 	objectType: "dmsShortPowerRecoveryMessage",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -235,7 +235,7 @@ var ShortPowerLossRecoveryMessageParameter = readAndWriteObject{
 // from the message table row specified by this object.
 // The length of time that defines a long power loss is indicated in the
 // dmsShortPowerLossTime-object.
-var LongPowerLossRecoveryMessageParameter = readAndWriteObject{
+var DmsLongPowerRecoveryMessage = readAndWriteObject{
 	objectType: "dmsLongPowerRecoveryMessage",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -246,7 +246,7 @@ var LongPowerLossRecoveryMessageParameter = readAndWriteObject{
 // the threshold where a short power loss becomes a long power loss. If the
 // value is set to zero (0), all power failures are defined as long power
 // losses.
-var ShortPowerLossTimeDefinitionParameter = readAndWriteObject{
+var DmsShortPowerLossTime = readAndWriteObject{
 	objectType: "dmsShortPowerLossTime",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -264,7 +264,7 @@ var ShortPowerLossTimeDefinitionParameter = readAndWriteObject{
 // - a source address of '127.0.0.1'.
 // Upon activation of the message, the run-time priority value shall be obtained
 // from the message table row specified by this object.
-var ResetMessageParameter = readAndWriteObject{
+var DmsResetMessage = readAndWriteObject{
 	objectType: "dmsResetMessage",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -289,7 +289,7 @@ var ResetMessageParameter = readAndWriteObject{
 // object is set to 4 (central) or 5 (centralOverride) and the value of the
 // dmsTimeCommLoss parameter has been reached, the value of this object shall be
 // implemented.
-var CommunicationsLossMessageParameter = readAndWriteObject{
+var DmsCommunicationsLossMessage = readAndWriteObject{
 	objectType: "dmsCommunicationsLossMessage",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -306,7 +306,7 @@ var CommunicationsLossMessageParameter = readAndWriteObject{
 // local control. The countdown timer shall be restarted (reset and started
 // again) once the sign control parameter value is switched to 'central (4)' or
 // 'centralOverride (5)'.
-var CommunicationLossTimeDefinitionParameter = readAndWriteObject{
+var DmsTimeCommLoss = readAndWriteObject{
 	objectType: "dmsTimeCommLoss",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -326,7 +326,7 @@ var CommunicationLossTimeDefinitionParameter = readAndWriteObject{
 
 // Note: Not all technologies support the means to display a message while the
 // power is off.
-var PowerLossMessageParameter = readAndWriteObject{
+var DmsPowerLossMessage = readAndWriteObject{
 	objectType: "dmsPowerLossMessage",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -346,7 +346,7 @@ var PowerLossMessageParameter = readAndWriteObject{
 
 // If the end duration message does not activate because this object is an
 // invalid value, the sign shall blank with the default value of this object.
-var EndDurationMessageParameter = readAndWriteObject{
+var DmsEndDurationMessage = readAndWriteObject{
 	objectType: "dmsEndDurationMessage",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -365,7 +365,7 @@ var EndDurationMessageParameter = readAndWriteObject{
 // all volatile messages to notUsed (1), and release all memory associated with
 // volatile messages.  This action does not affect any changeable graphics or
 // fonts.
-var MemoryManagementParameter = readAndWriteObject{
+var DmsMemoryMgmt = readAndWriteObject{
 	objectType: "dmsMemoryMgmt",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -431,7 +431,7 @@ var MemoryManagementParameter = readAndWriteObject{
 // illumination is off. As soon as the DMS determines that the
 // 'criticalTemperature' alarm is no longer present, the DMS shall display the
 // message stored in the currentBuffer.
-var ActivateMessageErrorParameter = readOnlyObject{
+var DmsActivateMsgError = readOnlyObject{
 	objectType: "dmsActivateMsgError",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -466,7 +466,7 @@ var ActivateMessageErrorParameter = readOnlyObject{
 //      MULTI tag [gx,cccc] does not match the dmsGraphicID for the
 //      dmsGraphicIndex indicated.
 //   graphicNotDefined (15):  The graphic is not defined in this device.
-var MULTISyntaxErrorParameter = readOnlyObject{
+var DmsMultiSyntaxError = readOnlyObject{
 	objectType: "dmsMultiSyntaxError",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -476,7 +476,7 @@ var MULTISyntaxErrorParameter = readOnlyObject{
 // This is the offset from the first character (e.g. first
 // character has offset 0, second is 1, etc.) of the MULTI string where the
 // SYNTAX error occurred.
-var PositionOfMULTISyntaxErrorParameter = readOnlyObject{
+var DmsMultiSyntaxErrorPosition = readOnlyObject{
 	objectType: "dmsMultiSyntaxErrorPosition",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -488,7 +488,7 @@ var PositionOfMULTISyntaxErrorParameter = readOnlyObject{
 // value of this object is valid only if dmsValidateMessageError has a value of
 // ‘syntaxMULTI(5)’ or dmsActivateMsgError has a value of ‘syntaxMULTI(8)’ and
 // dmsMultiSyntaxError is ‘other(1)’.
-var OtherMULTIErrorParameter = readOnlyObject{
+var DmsMultiOtherErrorDescription = readOnlyObject{
 	objectType: "dmsMultiOtherErrorDescription",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -500,7 +500,7 @@ var OtherMULTIErrorParameter = readOnlyObject{
 // routine, that routine shall be completed before stopping or restarting a new
 // pixel service routine due to vmsPixelServiceFrequency. A value of zero
 // disables pixel service.
-var PixelServiceDurationParameter = readAndWriteObject{
+var VmsPixelServiceDuration = readAndWriteObject{
 	objectType: "vmsPixelServiceDuration",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -511,7 +511,7 @@ var PixelServiceDurationParameter = readAndWriteObject{
 // value of zero indicates continuous pixel service from vmsPixelServiceTime to
 // the epoch of midnight. A value of 1440 indicates one pixel service in a 24-hour
 // period.
-var PixelServiceFrequencyParameter = readAndWriteObject{
+var VmsPixelServiceFrequency = readAndWriteObject{
 	objectType: "vmsPixelServiceFrequency",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -520,7 +520,7 @@ var PixelServiceFrequencyParameter = readAndWriteObject{
 
 // Indicates the base time at which the first pixel service shall
 // occur. Time is expressed in minutes from the epoch of Midnight of each day.
-var PixelServiceTimeParameter = readAndWriteObject{
+var VmsPixelServiceTime = readAndWriteObject{
 	objectType: "vmsPixelServiceTime",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -529,7 +529,7 @@ var PixelServiceTimeParameter = readAndWriteObject{
 
 // Indicates the MessageActivationCode that resulted in the
 // current value of the dmsActivateMsgError object.
-var MessageCodeOfTheActivationErrorParameter = readOnlyObject{
+var DmsActivateErrorMsgCode = readOnlyObject{
 	objectType: "dmsActivateErrorMsgCode",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -561,7 +561,7 @@ var MessageCodeOfTheActivationErrorParameter = readOnlyObject{
 // object. When a central receives slowActivatedError, it shall examine other
 // status objects specific to the sign, such as the rotary drum status objects,
 // to determine the precise error.
-var ActivateMessageStateParameter = readOnlyObject{
+var DmsActivateMessageState = readOnlyObject{
 	objectType: "dmsActivateMessageState",
 	syntax:     INTERGER,
 	status:     MANDATORY,

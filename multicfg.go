@@ -9,31 +9,31 @@ multiCfg  OBJECT IDENTIFIER ::= { dms 4 }
 ************************************************************************/
 
 var MultiConfigurationObjects = []Reader{
-	DefaultBackgroundColorParameter,
-	DefaultForegroundColorParameter,
-	DefaultFlashOnTimeParameter,
-	DefaultFlashOnTimeParameterAtActivation,
-	DefaultFlashOffTimeParameter,
-	DefaultFlashOffTimeParameterAtActivation,
-	DefaultFontParameter,
-	DefaultFontParameterAtActivation,
-	DefaultLineJustificationParameter,
-	DefaultLineJustificationParameterAtActivation,
-	DefaultPageJustificationParameter,
-	DefaultPageJustificationParameterAtActivation,
-	DefaultPageOnTimeParameter,
-	DefaultPageOnTimeParameterAtActivation,
-	DefaultPageOffTimeParameter,
-	DefaultPageOffTimeParameterAtActivation,
-	DefaultBackgroundColorRGBParameter,
-	DefaultBackgroundColorRGBParameterAtActivation,
-	DefaultForegroundColorRGBParameter,
-	DefaultForegroundColorRGBParameterAtActivation,
-	DefaultCharacterSetParameter,
-	ColorSchemeParameter,
-	SupportedMULTITagsParameter,
-	MaximumNumberOfPagesParameter,
-	MaximumMULTIStringLengthParameter,
+	DefaultBackgroundColor,
+	DefaultForegroundColor,
+	DefaultFlashOn,
+	DefaultFlashOnActivate,
+	DefaultFlashOff,
+	DefaultFlashOffActivate,
+	DefaultFont,
+	DefaultFontActivate,
+	DefaultJustificationLine,
+	DefaultJustificationLineActivate,
+	DefaultJustificationPage,
+	DefaultJustificationPageActivate,
+	DefaultPageOnTime,
+	DefaultPageOnTimeActivate,
+	DefaultPageOffTime,
+	DefaultPageOffTimeActivate,
+	DefaultBackgroundRGB,
+	DefaultBackgroundRGBActivate,
+	DefaultForegroundRGB,
+	DefaultForegroundRGBActivate,
+	DefaultCharacterSet,
+	DmsColorScheme,
+	DmsSupportedMultiTags,
+	DmsMaxNumberPages,
+	DmsMaxMultiStringLength,
 }
 
 // Indicates the color of the background shown on the sign for the
@@ -52,7 +52,7 @@ var MultiConfigurationObjects = []Reader{
 // Each of the background colors on a sign shall map to one of the colors
 // listed. If a color is requested that is not supported, then a genErr shall be
 // returned.
-var DefaultBackgroundColorParameter = readAndWriteObject{
+var DefaultBackgroundColor = readAndWriteObject{
 	objectType: "defaultBackgroundColor",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -75,7 +75,7 @@ var DefaultBackgroundColorParameter = readAndWriteObject{
 //   amber (9).
 // Each of the colors on a sign should map to one of the colors listed. If a
 // color is requested that is not supported, then a genErr shall be returned.
-var DefaultForegroundColorParameter = readAndWriteObject{
+var DefaultForegroundColor = readAndWriteObject{
 	objectType: "defaultForegroundColor",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -87,7 +87,7 @@ var DefaultForegroundColorParameter = readAndWriteObject{
 // the text remains visible. This object may be sub-ranged by an implementation;
 // see Section 3.5.2.3.2.3 for more information.
 // <Unit>tenth of seconds
-var DefaultFlashOnTimeParameter = readAndWriteObject{
+var DefaultFlashOn = readAndWriteObject{
 	objectType: "defaultFlashOn",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -99,7 +99,7 @@ var DefaultFlashOnTimeParameter = readAndWriteObject{
 // the time of activation. The value shall be created (overwritten) at the time
 // when the message was copied into the currentBuffer.
 // <Unit>tenth of seconds
-var DefaultFlashOnTimeParameterAtActivation = readAndWriteObject{
+var DefaultFlashOnActivate = readAndWriteObject{
 	objectType: "defaultFlashOnActivate",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -111,7 +111,7 @@ var DefaultFlashOnTimeParameterAtActivation = readAndWriteObject{
 // but the text remains visible. This object may be sub-ranged by an
 // implementation; see Section 3.5.2.3.2.3 for more information.
 // <Unit>tenth of seconds
-var DefaultFlashOffTimeParameter = readAndWriteObject{
+var DefaultFlashOff = readAndWriteObject{
 	objectType: "defaultFlashOff",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -122,7 +122,7 @@ var DefaultFlashOffTimeParameter = readAndWriteObject{
 // currently active message for the purpose of determining what the value was at
 // the time of activation. The value shall be created (overwritten) at the time
 // when the message was copied into the currentBuffer.
-var DefaultFlashOffTimeParameterAtActivation = readOnlyObject{
+var DefaultFlashOffActivate = readOnlyObject{
 	objectType: "defaultFlashOffActivate",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -132,7 +132,7 @@ var DefaultFlashOffTimeParameterAtActivation = readOnlyObject{
 // Indicates the default font number (fontNumber-object) for a
 // message. This object may be sub-ranged by an implementation; see Section
 // 3.5.2.3.2.4 for more information.
-var DefaultFontParameter = readAndWriteObject{
+var DefaultFont = readAndWriteObject{
 	objectType: "defaultFont",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -143,7 +143,7 @@ var DefaultFontParameter = readAndWriteObject{
 // currently active message for the purpose of determining what the value was at
 // the time of activation. The value shall be created (overwritten) at the time
 // when the message was copied into the currentBuffer.
-var DefaultFontParameterAtActivation = readOnlyObject{
+var DefaultFontActivate = readOnlyObject{
 	objectType: "defaultFontActivate",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -153,7 +153,7 @@ var DefaultFontParameterAtActivation = readOnlyObject{
 // Indicates the default line justification for a message. This
 // object may be sub-ranged by an implementation; see Section 3.5.2.3.2.5 for
 // more information.
-var DefaultLineJustificationParameter = readAndWriteObject{
+var DefaultJustificationLine = readAndWriteObject{
 	objectType: "defaultJustificationLine",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -164,7 +164,7 @@ var DefaultLineJustificationParameter = readAndWriteObject{
 // of the currently active message for the purpose of determining what the value
 // was at the time of activation. The value shall be created (overwritten) at
 // the time when the message was copied into the currentBuffer.
-var DefaultLineJustificationParameterAtActivation = readOnlyObject{
+var DefaultJustificationLineActivate = readOnlyObject{
 	objectType: "defaultJustificationLineActivate",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -174,7 +174,7 @@ var DefaultLineJustificationParameterAtActivation = readOnlyObject{
 // Indicates the default page justification for a message. This
 // object may be sub-ranged by an implementation; see Section 3.5.2.3.2.6 for
 // more information.
-var DefaultPageJustificationParameter = readAndWriteObject{
+var DefaultJustificationPage = readAndWriteObject{
 	objectType: "defaultJustificationPage",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -185,7 +185,7 @@ var DefaultPageJustificationParameter = readAndWriteObject{
 // of the currently active message for the purpose of determining what the value
 // was at the time of activation. The value shall be created (overwritten) at
 // the time when the message was copied into the currentBuffer.
-var DefaultPageJustificationParameterAtActivation = readOnlyObject{
+var DefaultJustificationPageActivate = readOnlyObject{
 	objectType: "defaultJustificationPageActivate",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -196,7 +196,7 @@ var DefaultPageJustificationParameterAtActivation = readOnlyObject{
 // second. If the message is only one page, this value is ignored, and the page
 // is continuously displayed. This object may be sub-ranged by an
 // implementation; see Section 3.5.2.3.2.7 for more information.
-var DefaultPageOnTimeParameter = readAndWriteObject{
+var DefaultPageOnTime = readAndWriteObject{
 	objectType: "defaultPageOnTime",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -207,7 +207,7 @@ var DefaultPageOnTimeParameter = readAndWriteObject{
 // currently active message for the purpose of determining what the value was at
 // the time of activation. The value shall be created (overwritten) at the time
 // when the message was copied into the currentBuffer.
-var DefaultPageOnTimeParameterAtActivation = readOnlyObject{
+var DefaultPageOnTimeActivate = readOnlyObject{
 	objectType: "defaultPageOnTimeActivate",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -218,7 +218,7 @@ var DefaultPageOnTimeParameterAtActivation = readOnlyObject{
 // second. If the message is only one page, this value is ignored, and the page
 // is continuously displayed. This object may be sub-ranged by an
 // implementation; see Section 3.5.2.3.2.7 for more information.
-var DefaultPageOffTimeParameter = readAndWriteObject{
+var DefaultPageOffTime = readAndWriteObject{
 	objectType: "defaultPageOffTime",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -229,7 +229,7 @@ var DefaultPageOffTimeParameter = readAndWriteObject{
 // currently active message for the purpose of determining what the value was at
 // the time of activation. The value shall be created (overwritten) at the time
 // when the message was copied into the currentBuffer.
-var DefaultPageOffTimeParameterAtActivation = readOnlyObject{
+var DefaultPageOffTimeActivate = readOnlyObject{
 	objectType: "defaultPageOffTimeActivate",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -257,7 +257,7 @@ var DefaultPageOffTimeParameterAtActivation = readOnlyObject{
 // returned.
 // This object may be sub-ranged by an implementation; see Section 3.5.2.3.2.2
 // for more information.
-var DefaultBackgroundColorRGBParameter = readAndWriteObject{
+var DefaultBackgroundRGB = readAndWriteObject{
 	objectType: "defaultBackgroundRGB",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -268,7 +268,7 @@ var DefaultBackgroundColorRGBParameter = readAndWriteObject{
 // the currently active message for the purpose of determining what the value
 // was at the time of activation. The value shall be created (overwritten) at
 // the time when the message was copied into the currentBuffer.
-var DefaultBackgroundColorRGBParameterAtActivation = readOnlyObject{
+var DefaultBackgroundRGBActivate = readOnlyObject{
 	objectType: "defaultBackgroundRGBActivate",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -295,7 +295,7 @@ var DefaultBackgroundColorRGBParameterAtActivation = readOnlyObject{
 // returned.
 // This object may be sub-ranged by an implementation; see Section 3.5.2.3.2.2
 // for more information.
-var DefaultForegroundColorRGBParameter = readAndWriteObject{
+var DefaultForegroundRGB = readAndWriteObject{
 	objectType: "defaultForegroundRGB",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -306,7 +306,7 @@ var DefaultForegroundColorRGBParameter = readAndWriteObject{
 // the currently active message for the purpose of determining what the value
 // was at the time of activation. The value shall be created (overwritten) at
 // the time when the message was copied into the currentBuffer.
-var DefaultForegroundColorRGBParameterAtActivation = readOnlyObject{
+var DefaultForegroundRGBActivate = readOnlyObject{
 	objectType: "defaultForegroundRGBActivate",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -321,7 +321,7 @@ var DefaultForegroundColorRGBParameterAtActivation = readOnlyObject{
 //      an 8-bit value.
 // This object may be sub-ranged by an implementation; see Section 3.5.2.3.2.8
 // for more information.
-var DefaultCharacterSetParameter = readAndWriteObject{
+var DefaultCharacterSet = readAndWriteObject{
 	objectType: "defaultCharacterSet",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -357,7 +357,7 @@ var DefaultCharacterSetParameter = readAndWriteObject{
 //      colors equals the 16,777,216 number of colors.
 // DMS with dmsColorScheme set to color24bit shall interpret MULTI tags with a
 // single color parameter (e.g. [cfx]) as colorClassic.
-var ColorSchemeParameter = readOnlyObject{
+var DmsColorScheme = readOnlyObject{
 	objectType: "dmsColorScheme",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -368,7 +368,7 @@ var ColorSchemeParameter = readOnlyObject{
 // object is a bitmap representation of tag support. When a bit is set (=1), the
 // device supports the corresponding tag. When a bit is cleared (=0), the device
 // does not support the corresponding tag.
-var SupportedMULTITagsParameter = readOnlyObject{
+var DmsSupportedMultiTags = readOnlyObject{
 	objectType: "dmsSupportedMultiTags",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -377,7 +377,7 @@ var SupportedMULTITagsParameter = readOnlyObject{
 
 // Indicates the maximum number of pages allowed in the
 // dmsMessageMultiString.
-var MaximumNumberOfPagesParameter = readOnlyObject{
+var DmsMaxNumberPages = readOnlyObject{
 	objectType: "dmsMaxNumberPages",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -386,7 +386,7 @@ var MaximumNumberOfPagesParameter = readOnlyObject{
 
 // Indicates the maximum number of bytes allowed within the
 // dmsMessageMultiString.
-var MaximumMULTIStringLengthParameter = readOnlyObject{
+var DmsMaxMultiStringLength = readOnlyObject{
 	objectType: "dmsMaxMultiStringLength",
 	syntax:     INTERGER,
 	status:     MANDATORY,

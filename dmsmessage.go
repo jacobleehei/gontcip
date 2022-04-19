@@ -32,16 +32,16 @@ var MessageObjects = []Reader{
 	// MessagePixelServiceParameter,
 	// MessageRunTimePriorityParameter,
 	// MessageStatusParameter,
-	NumberOfChangeableMessagesParameter,
-	MaximumNumberOfChangeableMessagesParameter,
-	FreeBytesWithinChangeableMemoryParameter,
-	NumberOfVolatileMessagesParameter,
-	MaximumNumberOfVolatileMessagesParameter,
-	FreeBytesWithinVolatileMemoryParameter,
-	MessageMemoryTypeParameter,
-	MessageNumberParameter,
-	MessageCRCParameter,
-	ValidateMessageErrorParameter,
+	DmsNumChangeableMsg,
+	DmsMaxChangeableMsg,
+	DmsFreeChangeableMemory,
+	DmsNumVolatileMsg,
+	DmsMaxVolatileMsg,
+	DmsFreeVolatileMemory,
+	DmsMessageMemoryType,
+	DmsMessageNumber,
+	DmsMessageCRC,
+	DmsValidateMessageError,
 }
 
 // Indicates the current number of Messages stored in non-volatile,
@@ -49,7 +49,7 @@ var MessageObjects = []Reader{
 // number of different messages that can be assembled.
 // See the Specifications in association with Requirement 3.6.7.1 to determine
 // the messages that must be supported.
-var NumberOfPermanentMessagesParameter = dmsMessageParameters{
+var DmsNumPermanentMsg = dmsMessageParameters{
 	objectType: "dmsNumPermanentMsg",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -58,7 +58,7 @@ var NumberOfPermanentMessagesParameter = dmsMessageParameters{
 
 // Indicates the current number of valid Messages stored in non-volatile,
 // changeable memory. For CMS and BOS, this number shall be zero (0).
-var NumberOfChangeableMessagesParameter = readOnlyObject{
+var DmsNumChangeableMsg = readOnlyObject{
 	objectType: "dmsNumChangeableMsg",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -70,7 +70,7 @@ var NumberOfChangeableMessagesParameter = readOnlyObject{
 // be zero (0).
 // See the Specifications in association with Requirement 3.5.6.2 to determine
 // the messages that must be supported.
-var MaximumNumberOfChangeableMessagesParameter = readOnlyObject{
+var DmsMaxChangeableMsg = readOnlyObject{
 	objectType: "dmsMaxChangeableMsg",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -81,7 +81,7 @@ var MaximumNumberOfChangeableMessagesParameter = readOnlyObject{
 // changeable memory. For CMS and BOS, this number shall be zero (0).
 // See the Specifications in association with Requirement 3.5.6.2 to determine
 // the total memory that must be provided.
-var FreeBytesWithinChangeableMemoryParameter = readOnlyObject{
+var DmsFreeChangeableMemory = readOnlyObject{
 	objectType: "dmsFreeChangeableMemory",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -90,7 +90,7 @@ var FreeBytesWithinChangeableMemoryParameter = readOnlyObject{
 
 // Indicates the current number of valid Messages stored in
 // volatile, changeable memory. For CMS and BOS, this number shall be zero (0).
-var NumberOfVolatileMessagesParameter = readOnlyObject{
+var DmsNumVolatileMsg = readOnlyObject{
 	objectType: "dmsNumVolatileMsg",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -102,7 +102,7 @@ var NumberOfVolatileMessagesParameter = readOnlyObject{
 // zero (0).
 // See the Specifications in association with Requirement 3.5.6.3 to determine
 // the messages that must be supported.
-var MaximumNumberOfVolatileMessagesParameter = readOnlyObject{
+var DmsMaxVolatileMsg = readOnlyObject{
 	objectType: "dmsMaxVolatileMsg",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -113,7 +113,7 @@ var MaximumNumberOfVolatileMessagesParameter = readOnlyObject{
 // changeable memory. For CMS and BOS, this number shall be zero (0).
 // See the Specifications in association with Requirement 3.5.6.3 to determine
 // the total memory that must be provided.
-var FreeBytesWithinVolatileMemoryParameter = readOnlyObject{
+var DmsFreeVolatileMemory = readOnlyObject{
 	objectType: "dmsFreeVolatileMemory",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -163,7 +163,7 @@ var FreeBytesWithinVolatileMemoryParameter = readOnlyObject{
 //   the dmsMessageMultiString shall be an OCTET STRING with a length of
 //   zero (0). The activation priority shall be determined from the
 //   activation priority of the MessageActivationCode.
-var MessageMemoryTypeParameter = readOnlyObject{
+var DmsMessageMemoryType = readOnlyObject{
 	objectType: "dmsMessageMemoryType",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -175,7 +175,7 @@ var MessageMemoryTypeParameter = readOnlyObject{
 // index is 'currentBuffer' or 'schedule', then this value must be one (1). When
 // the primary index is 'blank', this value shall be from 1 through 255 and all
 // compliant devices must support all 255 of these 'blank' rows.
-var MessageNumberParameter = readOnlyObject{
+var DmsMessageNumber = readOnlyObject{
 	objectType: "dmsMessageNumber",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -191,7 +191,7 @@ var MessageNumberParameter = readOnlyObject{
 // to a GET-request (regardless whether this message is actually being
 // displayed). The value of the MULTI string is not allowed to have any null
 // character.
-var MessageMULTIStringParameter = dmsMessageParameters{
+var DmsMessageMultiString = dmsMessageParameters{
 	objectType: "dmsMessageMultiString",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -199,7 +199,7 @@ var MessageMULTIStringParameter = dmsMessageParameters{
 }
 
 // Indicates the owner or author of this row.
-var MessageOwnerParameter = dmsMessageParameters{
+var DmsMessageOwner = dmsMessageParameters{
 	objectType: "dmsMessageOwner",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -216,7 +216,7 @@ var MessageOwnerParameter = dmsMessageParameters{
 // dmsMessageCRC value shall always be zero (0). For messages of the 'schedule'
 // message type, the CRC value of the currently scheduled message shall always
 // be returned (regardless whether this message is actually being displayed).
-var MessageCRCParameter = readOnlyObject{
+var DmsMessageCRC = readOnlyObject{
 	objectType: "dmsMessageCRC",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -233,15 +233,11 @@ var MessageCRCParameter = readOnlyObject{
 // GET-request (regardless whether this message is actually being displayed).
 // When the dmsMessageMemoryType is 'permanent', the object shall return the
 // dmsMessageBeacon setting of the factory-preset value in response to a GET-request.
-var MessageBeaconParameter = dmsMessageParameters{
+var DmsMessageBeacon = dmsMessageParameters{
 	objectType: "dmsMessageBeacon",
 	syntax:     INTERGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.6",
-}
-
-func MakeMessageBeaconParameterOID(messageMemoryType, messageNumber int) string {
-	return fmt.Sprintf(".%s.%d.%d", MessageBeaconParameter.identifier, messageMemoryType, messageNumber)
 }
 
 // Indicates whether pixel service shall be enabled (1) or
@@ -255,15 +251,11 @@ func MakeMessageBeaconParameterOID(messageMemoryType, messageNumber int) string 
 // When the primary index is 'permanent', the object shall return the
 // dmsMessagePixelService setting of the factory-preset value in response to a
 // GET-request.
-var MessagePixelServiceParameter = dmsMessageParameters{
+var DmsMessagePixelService = dmsMessageParameters{
 	objectType: "dmsMessagePixelService",
 	syntax:     INTERGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.7",
-}
-
-func MakeMessagePixelServiceParameterOID(messageMemoryType, messageNumber int) string {
-	return fmt.Sprintf(".%s.%d.%d", MessagePixelServiceParameter.identifier, messageMemoryType, messageNumber)
 }
 
 // Indicates the run time priority assigned to a particular
@@ -276,7 +268,7 @@ func MakeMessagePixelServiceParameterOID(messageMemoryType, messageNumber int) s
 // When the dmsMessageMemoryType is 'permanent', the object shall return the
 // dmsMessageRunTimePriority setting of the factory-preset value in response to
 // a GET-request.
-var MessageRunTimePriorityParameter = dmsMessageParameters{
+var DmsMessageRunTimePriority = dmsMessageParameters{
 	objectType: "dmsMessageRunTimePriority",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -301,7 +293,7 @@ const (
 
 func (m messageStatusFormat) Int() int { return int(m) }
 
-var MessageStatusParameter = dmsMessageParameters{
+var DmsMessageStatus = dmsMessageParameters{
 	objectType: "dmsMessageStatus",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -312,7 +304,7 @@ var MessageStatusParameter = dmsMessageParameters{
 // validated. If multiple errors occur, only the first value is indicated. The
 // syntaxMULTI error is further detailed in the dmsMultiSyntaxError,
 // dmsMultiSyntaxErrorPosition and dmsMultiOtherErrorDescription objects.
-var ValidateMessageErrorParameter = readOnlyObject{
+var DmsValidateMessageError = readOnlyObject{
 	objectType: "dmsValidateMessageError",
 	syntax:     INTERGER,
 	status:     MANDATORY,

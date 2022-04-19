@@ -18,7 +18,7 @@ message error status functions that are common to DMS devices.
 // no sensor is present or supported (for a corresponding bit), the bit
 // shall not be set.
 //   The bits are defined as follows:
-var ShortErrorStatusParameter = readOnlyObject{
+var ShortErrorStatus = readOnlyObject{
 	objectType: "shortErrorStatus",
 	syntax:     INTERGER,
 	status:     MANDATORY,

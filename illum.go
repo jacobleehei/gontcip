@@ -9,15 +9,15 @@ illum  OBJECT IDENTIFIER ::= { dms 7 }
 *********************************************************************/
 
 var IlluminationObjects = []Reader{
-	IlluminationControlParameter,
-	MaximumIlluminationPhotocellLevelParameter,
-	StatusOfIlluminationPhotocellLevelParameter,
-	NumberOfIlluminationBrightnessLevelsParameter,
-	StatusOfIlluminationBrightnessLevelParameter,
-	IlluminationManualLevelParameter,
-	IlluminationBrightnessValuesParameter,
-	BrightnessValuesErrorParameter,
-	StatusOfIlluminationLightOutputParameter,
+	DmsIllumControl,
+	DmsIllumMaxPhotocellLevel,
+	DmsIllumPhotocellLevelStatus,
+	DmsIllumNumBrightLevels,
+	DmsIllumBrightLevelStatus,
+	DmsIllumManLevel,
+	DmsIllumBrightnessValues,
+	DmsIllumBrightnessValuesError,
+	DmsIllumLightOutputStatus,
 }
 
 // Indicates the method used to select the Brightness Level.
@@ -48,7 +48,7 @@ var IlluminationObjects = []Reader{
 // manualIndexed) from any other mode, the current brightness level shall
 // automatically be loaded into the dmsIllumManLevel object.
 
-var IlluminationControlParameter = readAndWriteObject{
+var DmsIllumControl = readAndWriteObject{
 	objectType: "dmsIllumControl",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -57,7 +57,7 @@ var IlluminationControlParameter = readAndWriteObject{
 
 // Indicates the maximum value given by the
 // dmsIllumPhotocellLevelStatus-object
-var MaximumIlluminationPhotocellLevelParameter = readOnlyObject{
+var DmsIllumMaxPhotocellLevel = readOnlyObject{
 	objectType: "dmsIllumMaxPhotocellLevel",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -72,7 +72,7 @@ var MaximumIlluminationPhotocellLevelParameter = readOnlyObject{
 // dealing with the brightness table. The algorithm used to determine the
 // virtual level from the actual photocell readings is manufacturer specific to
 // accommodate various hardware needs.
-var StatusOfIlluminationPhotocellLevelParameter = readOnlyObject{
+var DmsIllumPhotocellLevelStatus = readOnlyObject{
 	objectType: "dmsIllumPhotocellLevelStatus",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -84,7 +84,7 @@ var StatusOfIlluminationPhotocellLevelParameter = readOnlyObject{
 // This value indicates the total levels of brightness that this device
 // supports, not the number of rows defined in the table of the
 // dmsIllumBrightnessValues object.
-var NumberOfIlluminationBrightnessLevelsParameter = readOnlyObject{
+var DmsIllumNumBrightLevels = readOnlyObject{
 	objectType: "dmsIllumNumBrightLevels",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -94,7 +94,7 @@ var NumberOfIlluminationBrightnessLevelsParameter = readOnlyObject{
 // Indicates the current Brightness Level of the device, ranging
 // from 0 (OFF) to the maximum value given by the dmsIllumNumBrightLevels-
 // object (Brightest).
-var StatusOfIlluminationBrightnessLevelParameter = readOnlyObject{
+var DmsIllumBrightLevelStatus = readOnlyObject{
 	objectType: "dmsIllumBrightLevelStatus",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -115,7 +115,7 @@ var StatusOfIlluminationBrightnessLevelParameter = readOnlyObject{
 // If the device supports version 1 and the dmsIllumControl object is set to a
 // value of 'manual (4)', then the deployment could be either (contact your
 // vendor to determine which way is implemented)
-var IlluminationManualLevelParameter = readAndWriteObject{
+var DmsIllumManLevel = readAndWriteObject{
 	objectType: "dmsIllumManLevel",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -165,7 +165,7 @@ var IlluminationManualLevelParameter = readAndWriteObject{
 // errors as defined in the dmsIllumBrightnessValuesError object. However, since
 // no photocell is supported, the entered values for 'photocellLevelDown' and
 // 'photocellLevelUp' for the various 'lightOutputs' are meaningless.
-var IlluminationBrightnessValuesParameter = readAndWriteObject{
+var DmsIllumBrightnessValues = readAndWriteObject{
 	objectType: "dmsIllumBrightnessValues",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -190,7 +190,7 @@ var IlluminationBrightnessValuesParameter = readAndWriteObject{
 //      than are reported by dmsIllumNumBrightLevels.
 // invalidData(6) - indicates a manufacturer defined condition of invalid
 //      data not described by the other options.
-var BrightnessValuesErrorParameter = readOnlyObject{
+var DmsIllumBrightnessValuesError = readOnlyObject{
 	objectType: "dmsIllumBrightnessValuesError",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -199,7 +199,7 @@ var BrightnessValuesErrorParameter = readOnlyObject{
 
 // Indicates the current physical light output value ranging from
 // 0 (darkest) to 65535 (maximum output).
-var StatusOfIlluminationLightOutputParameter = readOnlyObject{
+var DmsIllumLightOutputStatus = readOnlyObject{
 	objectType: "dmsIllumLightOutputStatus",
 	syntax:     INTERGER,
 	status:     MANDATORY,

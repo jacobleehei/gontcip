@@ -10,26 +10,26 @@ fontDefinition  OBJECT IDENTIFIER ::= { dms 3 }
 *******************************************************************/
 
 var FontDefinitionObjects = []Reader{
-	NumberOfFontsParameter,
-	FontIndexParameter,
-	FontNumberParameter,
-	FontNameParameter,
-	FontHeightParameter,
-	FontCharacterSpacingParameter,
-	FontLineSpacingParameter,
-	FontVersionIDParameter,
-	FontStatusParameter,
-	MaximumCharactersPerFontParameter,
-	CharacterNumberParameter,
-	CharacterWidthParameter,
-	CharacterBitmapParameter,
-	MaximumCharacterSizeParameter,
+	NumFonts,
+	FontIndex,
+	FontNumber,
+	FontName,
+	FontHeight,
+	FontCharSpacing,
+	FontLineSpacing,
+	FontVersionID,
+	FontStatus,
+	MaxFontCharacters,
+	CharacterNumber,
+	CharacterWidth,
+	CharacterBitmap,
+	FontMaxCharacterSize,
 }
 
 // Indicates the maximum number of fonts that the sign can store.
 // See the Specification in association with the supplemental requirements for
 // fonts to determine the number of fonts that the DMS must support
-var NumberOfFontsParameter = readOnlyObject{
+var NumFonts = readOnlyObject{
 	objectType: "numFonts",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -37,7 +37,7 @@ var NumberOfFontsParameter = readOnlyObject{
 }
 
 // Indicates the row number of the entry
-var FontIndexParameter = readOnlyObject{
+var FontIndex = readOnlyObject{
 	objectType: "fontIndex",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -47,7 +47,7 @@ var FontIndexParameter = readOnlyObject{
 // A unique, user-specified number for a particular font which can
 // be different from the value of the fontIndex-object. This is the number
 // referenced by MULTI when specifying a particular font.
-var FontNumberParameter = readAndWriteObject{
+var FontNumber = readAndWriteObject{
 	objectType: "fontNumber",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -55,7 +55,7 @@ var FontNumberParameter = readAndWriteObject{
 }
 
 // Indicates the name of the font
-var FontNameParameter = readAndWriteObject{
+var FontName = readAndWriteObject{
 	objectType: "fontName",
 	syntax:     DISPLAY_STRING,
 	status:     MANDATORY,
@@ -70,7 +70,7 @@ var FontNameParameter = readAndWriteObject{
 // vmsCharacterHeightPixels; a Full Matrix VMS shall subrange this object to the
 // range of zero (0) to the value of vmsSignHeightPixels or 255, whichever is
 // less.
-var FontHeightParameter = readAndWriteObject{
+var FontHeight = readAndWriteObject{
 	objectType: "fontHeight",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -85,7 +85,7 @@ var FontHeightParameter = readAndWriteObject{
 // Full Matrix VMS shall subrange this object to the range of zero (0) to the
 // smaller of 255 or the value of vmsSignWidthPixels.
 // See also the MULTI tag 'spacing character [sc]'.
-var FontCharacterSpacingParameter = readAndWriteObject{
+var FontCharSpacing = readAndWriteObject{
 	objectType: "fontCharSpacing",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -101,7 +101,7 @@ var FontCharacterSpacingParameter = readAndWriteObject{
 // subrange this object to the range of zero (0) to the smaller of 255 or the
 // value of vmsSignHeightPixels.
 // See also the MULTI tag 'new line [nl]'.
-var FontLineSpacingParameter = readAndWriteObject{
+var FontLineSpacing = readAndWriteObject{
 	objectType: "fontLineSpacing",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -193,7 +193,7 @@ var FontLineSpacingParameter = readAndWriteObject{
 // 110011
 // 110011
 // 110011
-var FontVersionIDParameter = readOnlyObject{
+var FontVersionID = readOnlyObject{
 	objectType: "fontVersionID",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -227,7 +227,7 @@ var FontVersionIDParameter = readOnlyObject{
 // font that is not managed using the fontStatus object. This state can be use
 // to manage the font as in NTCIP 1203 v1. Note: attempts to modify permanent
 // fonts while in this state shall generate SNMP GenErr.
-var FontStatusParameter = readAndWriteObject{
+var FontStatus = readAndWriteObject{
 	objectType: "fontStatus",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -236,7 +236,7 @@ var FontStatusParameter = readAndWriteObject{
 
 // Indicates the maximum number of rows in the character table
 // that can exist for any given font.
-var MaximumCharactersPerFontParameter = readOnlyObject{
+var MaxFontCharacters = readOnlyObject{
 	objectType: "maxFontCharacters",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -246,7 +246,7 @@ var MaximumCharactersPerFontParameter = readOnlyObject{
 // Indicates the binary value associated with this character of
 // this font. For example, if the font set followed the ASCII numbering scheme,
 // the character giving the bitmap of 'A' would be characterNumber 65 (41 hex).
-var CharacterNumberParameter = readOnlyObject{
+var CharacterNumber = readOnlyObject{
 	objectType: "characterNumber",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -258,7 +258,7 @@ var CharacterNumberParameter = readOnlyObject{
 // this object either to a value of zero (0) or the value of the
 // vmsCharacterWidthPixels object; a Line Matrix or Full Matrix VMS shall
 // subrange this object to a range of zero (0) to vmsSignWidthPixels.
-var CharacterWidthParameter = readAndWriteObject{
+var CharacterWidth = readAndWriteObject{
 	objectType: "characterWidth",
 	syntax:     INTERGER,
 	status:     MANDATORY,
@@ -284,7 +284,7 @@ var CharacterWidthParameter = readAndWriteObject{
 
 // Note: Version 1 Compatibility:  Version 1 of this standard defined the bits
 // as ON (foreground color) or OFF (background color).
-var CharacterBitmapParameter = readAndWriteObject{
+var CharacterBitmap = readAndWriteObject{
 	objectType: "characterBitmap",
 	syntax:     OCTET_STRING,
 	status:     MANDATORY,
@@ -295,7 +295,7 @@ var CharacterBitmapParameter = readAndWriteObject{
 // supports for each character's characterBitmap object.
 // The largest value of this object must be equal or smaller than the total
 // number of pixels of the sign.
-var MaximumCharacterSizeParameter = readOnlyObject{
+var FontMaxCharacterSize = readOnlyObject{
 	objectType: "fontMaxCharacterSize",
 	syntax:     INTERGER,
 	status:     MANDATORY,
