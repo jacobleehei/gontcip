@@ -115,7 +115,7 @@ func ActivatingMessage(
 		// f) If dmsActivateMessageError equals “syntaxMULTI(8)” and dmsMultiSyntaxError equals “other(1)”
 		// then the management station shall GET dmsMultiOtherErrorDescription.0 to determine the vendor
 		// specific error.
-		return errors.New("TO-DO")
+		return errors.New("TO-DO") //@todo
 	}
 }
 
@@ -263,5 +263,80 @@ GET_VALIDATE_MESSAGE_ERROR:
 
 	// Note: If, at the end of this process, the value of dmsMessageStatus.x.y is 'valid', the message can
 	// be activated.
-	return errors.New("TO-DO")
+	return errors.New("TO-DO") //@todo
+}
+
+type retrievingResult struct {
+	DmsMessageMultiString     string
+	DmsMessageOwner           string
+	DmsMessageRunTimePriority int
+	DmsMessageStatus          int // the return shall be 4(Vaild)
+	DmsMessageBeacon          int
+	DmsMessagePixelService    int
+}
+
+// The standardized dialog for a management station to upload a message from the DMS
+// (Precondition) The management station shall ensure that the DMS supports the desired message
+// type and number.
+func RetrievingMessage(
+	dms *gosnmp.GoSNMP,
+	messageMemoryType, messageNumber int,
+) (result retrievingResult, err error) {
+	if err = dms.Connect(); err != nil {
+		return result, err
+	}
+	// The management station shall GET the following data:
+	// 1) dmsMessageMultiString.x.y
+	// 2) dmsMessageOwner.x.y
+	// 3) dmsMessageRunTimePriority.x.y
+	// 4) dmsMessageStatus.x.y
+	var oids = []string{
+		ntcip.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber),
+		ntcip.DmsMessageOwner.Identifier(messageMemoryType, messageNumber),
+		ntcip.DmsMessageRunTimePriority.Identifier(messageMemoryType, messageNumber),
+		ntcip.DmsMessageStatus.Identifier(messageMemoryType, messageNumber),
+	}
+
+	getResults, err := dms.Get(oids)
+	if err != nil {
+		return result, errors.Wrapf(err, "get dmsMessageMultiString failed")
+	}
+	for _, variable := range getResults.Variables {
+		switch variable.Name {
+		case ntcip.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber):
+			result.DmsMessageMultiString = string(variable.Value.([]uint8))
+		case ntcip.DmsMessageOwner.Identifier(messageMemoryType, messageNumber):
+			result.DmsMessageOwner = string(variable.Value.([]uint8))
+		case ntcip.DmsMessageRunTimePriority.Identifier(messageMemoryType, messageNumber):
+			result.DmsMessageRunTimePriority = variable.Value.(int)
+		case ntcip.DmsMessageStatus.Identifier(messageMemoryType, messageNumber):
+			result.DmsMessageStatus = variable.Value.(int)
+		}
+	}
+
+	// The management station shall GET dmsMessageBeacon.x.y.
+	// Note: The response to this request may be a noSuchName error, indicating that the DMS does not
+	// support this optional feature. This error will not affect the sequence of this dialog, but the
+	// management station should be aware that the CRC will be calculated with this value defaulted to zero
+	// (0).
+	getResult, _ := ntcip.GetSingleOID(dms, ntcip.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber))
+	if err != nil {
+		return result, errors.Wrap(err, "get dmsMessageBeacon failed")
+	}
+	if _, ok := getResult.Value.(int); ok {
+		result.DmsMessageBeacon = getResult.Value.(int)
+	}
+	// The management station shall GET dmsMessagePixelService.x.y.
+	// Note: The response to this request may be a noSuchName error, indicating that the DMS does not
+	// support this optional feature. This error will not affect the sequence of this dialog, but the
+	// management station should be aware that the CRC will be calculated with this value defaulted to zero
+	// (0).
+	getResult, _ = ntcip.GetSingleOID(dms, ntcip.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber))
+	if err != nil {
+		return result, errors.Wrap(err, "get dmsMessagePixelService failed")
+	}
+	if _, ok := getResult.Value.(int); ok {
+		result.DmsMessagePixelService = getResult.Value.(int)
+	}
+	return
 }
