@@ -26,45 +26,45 @@ GoNTCIP is a libary fully written in Go. It is written following NTCIP1203 versi
 
 GoNTCIP has the Following functions for NTCIP Diaglogs.
 
-- Calculating the Checksum Value;\
+- Calculating the Checksum Value;
 
 ### Managing the DMS Configuration
 
-- Retrieving a Font Definition\
-- Configuring a Font\
-- Validating a Font\
-- Retrieving a Graphic Definition\
-- Storing a Graphic Definition\
-- Deleting a Graphic\
-- Validating a Graphic\
-- Configuring Light Output Algorithm\
+- Retrieving a Font Definition
+- Configuring a Font
+- Validating a Font
+- Retrieving a Graphic Definition
+- Storing a Graphic Definition
+- Deleting a Graphic
+- Validating a Graphic
+- Configuring Light Output Algorithm
 
 ### Controlling the DMS
 
-- Activating a Message \
-- Defining a Message \
-- Retrieving a Message \
-- Manually Controlling Sign Brightness \
-- Manage the Exercise of Pixels\
-- Activating a Message with Status\
+- Activating a Message
+- Defining a Message
+- Retrieving a Message
+- Manually Controlling Sign Brightness
+- Manage the Exercise of Pixels
+- Activating a Message with Status
 
 ### Monitoring the Status of the DMS
 
-- Executing Lamp Testing\
-- Activating Pixel Testing \
-- Executing Climate-Control Equipment Testing\
-- Monitoring Power Error Details\
-- Monitoring Lamp Error Details\
-- Monitoring Pixel Error Details\
-- Monitoring Light Sensor Error Details\
-- Monitoring Message Activation Error Details\
-- Monitoring Climate-Control System Error Details\
-- Monitoring Sign Housing Humidity\
-- Monitoring Control Cabinet Humidity\
-- Monitoring Drum Sign Rotor Error Details\
-- Monitoring Attached Devices\
-- Monitoring the Current Message\
-- Monitoring Dynamic Field Values\
+- Executing Lamp Testing
+- Activating Pixel Testing
+- Executing Climate-Control Equipment Testing
+- Monitoring Power Error Details
+- Monitoring Lamp Error Details
+- Monitoring Pixel Error Details
+- Monitoring Light Sensor Error Details
+- Monitoring Message Activation Error Details
+- Monitoring Climate-Control System Error Details
+- Monitoring Sign Housing Humidity
+- Monitoring Control Cabinet Humidity
+- Monitoring Drum Sign Rotor Error Details
+- Monitoring Attached Devices
+- Monitoring the Current Message
+- Monitoring Dynamic Field Values
 
 ## :checkered_flag: Starting
 
