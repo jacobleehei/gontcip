@@ -20,7 +20,7 @@
 
 ## :dart: About
 
-GoNTCIP is a libary fully written in Go. It is written following NTCIP1203 version-v03 (https://www.ntcip.org/file/2018/11/NTCIP1203v03f.pdf). It provides the standardized dialogs that fulfill various requirements.
+GoNTCIP is a libary fully written in Go. It is written following NTCIP1203 version-v03 (https://www.ntcip.org/file/2018/11/NTCIP1203v03f.pdf) logical interface. It provides the standardized dialogs that fulfill various requirements.
 
 ## :sparkles: Features
 
