@@ -7,5 +7,7 @@ func Format(objects Reader, getResult interface{}) (result interface{}, err erro
 
 // Mapping parameters for formatting
 var formatMapping = map[string]func(getResult interface{}) (result interface{}, err error){
-	ShortErrorStatus.ObjectType(): formatShortErrorStatusParameter,
+	ShortErrorStatus.ObjectType():    formatShortErrorStatusParameter,
+	DmsMultiSyntaxError.ObjectType(): formatDmsMultiSyntaxError,
+	DmsMultiSyntaxError.ObjectType(): formatDmsActivateMsgError,
 }

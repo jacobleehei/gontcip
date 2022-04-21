@@ -1,5 +1,7 @@
 package godms
 
+import "github.com/pkg/errors"
+
 /********************************************************************
 Sign Control Objects
 
@@ -438,6 +440,27 @@ var DmsActivateMsgError = readOnlyObject{
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.17",
 }
 
+func formatDmsActivateMsgError(getResult interface{}) (result interface{}, err error) {
+	var formatMap = map[int]string{
+		1:  "other",
+		2:  "none",
+		3:  "priority",
+		4:  "messageStatus",
+		5:  "messageMemoryType",
+		6:  "messageNumber",
+		7:  "messageCRC",
+		8:  "syntaxMULTI",
+		9:  "localMode",
+		10: "centralMode",
+		11: "centralOverrideMode",
+	}
+	r, ok := getResult.(int)
+	if !ok {
+		return "", errors.New(`expect int type for "formatDmsActivateMsgError"`)
+	}
+	return formatMap[r], nil
+}
+
 // This is an error code used to identify the first detected
 // syntax error within the MULTI message.
 //   other (1):  An error other than one of those listed.
@@ -471,6 +494,32 @@ var DmsMultiSyntaxError = readOnlyObject{
 	syntax:     INTERGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.18",
+}
+
+func formatDmsMultiSyntaxError(getResult interface{}) (interface{}, error) {
+	var formatMap = map[int]string{
+		1:  "other",
+		2:  "none",
+		3:  "unsupportedTag",
+		4:  "unsupportedTagValue",
+		5:  "textTooBig",
+		6:  "fontNotDefined",
+		7:  "characterNotDefined",
+		8:  "fieldDeviceNotExist",
+		9:  "fieldDeviceError",
+		10: "flashRegionError",
+		11: "tagConflict",
+		12: "tooManyPages",
+		13: "fontVersionID",
+		14: "graphicID",
+		15: "graphicNotDefined",
+	}
+	r, ok := getResult.(int)
+	if !ok {
+		return "", errors.New(`expect int type for "formatDmsMultiSyntaxError"`)
+	}
+
+	return formatMap[r], nil
 }
 
 // This is the offset from the first character (e.g. first

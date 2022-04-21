@@ -16,6 +16,15 @@ Standardized dialogs for controlling the DMS that are more complex than simple G
 defined in the following subsections.
 **********************************************************************************************/
 
+type activatingMessageResult struct {
+	ShortErrorStatus              []string
+	DmsActivateMsgError           string
+	DmsActivateErrorMsgCode       int
+	DmsMultiSyntaxError           string
+	DmsMultiSyntaxErrorPosition   int
+	DmsMultiOtherErrorDescription string
+}
+
 func ActivatingMessage(
 	dms *gosnmp.GoSNMP,
 	// 	dmsActivateMessage.0 is a
@@ -29,9 +38,9 @@ func ActivatingMessage(
 	//    - message source address
 	// 	also feel free to See Clause 4.4.6.4 from https://www.ntcip.org/file/2018/11/NTCIP1203v03f.pdf
 	duration, priority, messageMemoryType, messageNumber int,
-) error {
-	if err := dms.Connect(); err != nil {
-		return err
+) (activeResult activatingMessageResult, err error) {
+	if err = dms.Connect(); err != nil {
+		return
 	}
 
 	// The management station shall SET dmsActivateMessage.0 to the desired value. This will cause the
@@ -50,7 +59,7 @@ func ActivatingMessage(
 		d.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber),
 	})
 	if err != nil {
-		return errors.Wrap(err, "get dms failed")
+		return activeResult, errors.Wrap(err, "get dms failed")
 	}
 	for _, variable := range getResults.Variables {
 		switch variable.Name {
@@ -61,7 +70,7 @@ func ActivatingMessage(
 		case d.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber):
 			pixelserviceOnTargetMessageNumber = variable.Value.(int)
 		default:
-			return errors.New("no avaliable results")
+			return activeResult, errors.New("no avaliable results")
 		}
 	}
 
@@ -71,51 +80,103 @@ func ActivatingMessage(
 		"127.0.0.1",
 	)
 	if err != nil {
-		return errors.Wrap(err, "encode activate message failed")
+		return activeResult, errors.Wrap(err, "encode activate message failed")
 	}
 	activeMessagePDU, err := d.DmsActivateMessage.WriteIdentifier(activeMessageCode)
 	if err != nil {
-		return errors.Wrap(err, "write activate message object identifier failed")
+		return activeResult, errors.Wrap(err, "write activate message object identifier failed")
 	}
 
 	setResult, err := dms.Set([]gosnmp.SnmpPDU{activeMessagePDU})
 	if err != nil {
-		return errors.Wrap(err, "dms set failed")
+		return activeResult, errors.Wrap(err, "dms set failed")
 	}
 
 	if setResult.Error == gosnmp.NoError {
 		// If the response indicates 'noError', the message has been activated and the management station
 		// shall GET shortErrorStatus.0 to ensure that there are no errors preventing the display of the message
 		// (e.g. a 'criticalTemperature' alarm). The management station may then exit the process.
-		getResult, err := d.GetSingleOID(dms, d.ShortErrorStatus.Identifier())
+		var getResult gosnmp.SnmpPDU
+		getResult, err = d.GetSingleOID(dms, d.ShortErrorStatus.Identifier(0))
 		if err != nil {
-			return errors.Wrap(err, "dms get next failed")
+			return activeResult, errors.Wrap(err, "dms get shortErrorStatus failed")
 		}
 
-		if getResult.Value != nil {
-			formatResult, err := d.Format(d.ShortErrorStatus, getResult.Value)
-			if err != nil {
-				return errors.Wrap(err, "format short error startus failed")
-			}
-
-			if len(formatResult.([]string)) != 0 {
-				return fmt.Errorf("activate message failed: %v", formatResult.([]string))
-			}
+		var formatResult interface{}
+		formatResult, err = d.Format(d.ShortErrorStatus, getResult.Value)
+		if err != nil {
+			return activeResult, errors.Wrap(err, "format short error startus failed")
 		}
 
-		return nil
+		activeResult.ShortErrorStatus = formatResult.([]string)
+		return
+
 	} else {
 		// If the response from Step 2 indicates an error, the message was not activated. The management
 		// station shall GET dmsActivateMsgError.0 and dmsActivateErrorMsgCode.0 to determine the type of
 		// error.
+		var result *gosnmp.SnmpPacket
+		result, err = dms.Get([]string{
+			d.DmsActivateMsgError.Identifier(0),
+			d.DmsActivateErrorMsgCode.Identifier(0),
+		})
+		if err != nil {
+			return activeResult, errors.Wrap(err, "get dmsActivateMsgError failed")
+		}
+		for _, variable := range result.Variables {
+			if variable.Name == d.DmsActivateMsgError.Identifier(0) {
+				result, err := d.Format(d.DmsActivateMsgError, variable.Value)
+				if err != nil {
+					return activeResult, errors.Wrap(err, "format dmsActivateMsgError failed")
+				}
+				activeResult.DmsActivateMsgError = result.(string)
+			}
+
+			if variable.Name == d.DmsActivateErrorMsgCode.Identifier(0) {
+				activeResult.DmsActivateErrorMsgCode = variable.Value.(int)
+			}
+		}
+
+		if activeResult.DmsActivateMsgError != "syntaxMULTI" {
+			return
+		}
+
 		// e) If dmsActivateMsgError equals 'syntaxMULTI' then the management station shall GET the following
 		// data to determine the error details:
 		// 1) dmsMultiSyntaxError.0
 		// 2) dmsMultiSyntaxErrorPosition.0
+		result, err = dms.Get([]string{
+			d.DmsMultiSyntaxError.Identifier(0),
+			d.DmsMultiSyntaxErrorPosition.Identifier(0),
+		})
+		if err != nil {
+			return activeResult, errors.Wrap(err, "get dmsMultiSyntaxError failed")
+		}
+		for _, variable := range result.Variables {
+			if variable.Name == d.DmsMultiSyntaxError.Identifier(0) {
+				result, err := d.Format(d.DmsMultiSyntaxError, variable.Value)
+				if err != nil {
+					return activeResult, errors.Wrap(err, "format dmsMultiSyntaxError failed")
+				}
+				activeResult.DmsMultiSyntaxError = result.(string)
+			}
+
+			if variable.Name == d.DmsMultiSyntaxErrorPosition.Identifier(0) {
+				activeResult.DmsMultiSyntaxErrorPosition = variable.Value.(int)
+			}
+		}
 		// f) If dmsActivateMessageError equals “syntaxMULTI(8)” and dmsMultiSyntaxError equals “other(1)”
 		// then the management station shall GET dmsMultiOtherErrorDescription.0 to determine the vendor
 		// specific error.
-		return errors.New("TO-DO") //@todo
+		if activeResult.DmsActivateMsgError == "syntaxMULTI" && activeResult.DmsMultiSyntaxError == "other" {
+			result, err := d.GetSingleOID(dms, d.DmsMultiOtherErrorDescription.Identifier(0))
+			if err != nil {
+				return activeResult, errors.Wrap(err, "get dmsMultiOtherErrorDescription failed")
+			}
+			activeResult.DmsMultiOtherErrorDescription = string(result.Value.([]uint8))
+		}
+
+		return
 	}
 }
 

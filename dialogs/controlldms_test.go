@@ -47,7 +47,7 @@ func TestActivatingMessage(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := ActivatingMessage(tt.args.dms, tt.args.duration, tt.args.priority, tt.args.messageMemoryType, tt.args.messageNumber)
+			_, err := ActivatingMessage(tt.args.dms, tt.args.duration, tt.args.priority, tt.args.messageMemoryType, tt.args.messageNumber)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ActivatingMessage() error = %v, wantErr %v", err, tt.wantErr)
 				return

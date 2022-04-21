@@ -1,6 +1,7 @@
 package godms
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/gosnmp/gosnmp"
@@ -31,7 +32,7 @@ type Reader interface {
 	Syntax() gosnmp.Asn1BER
 	Access() string
 	Status() string
-	Identifier() string
+	Identifier(index int) string
 }
 
 type Writer interface {
@@ -53,7 +54,9 @@ func (object readOnlyObject) ObjectType() string     { return object.objectType 
 func (object readOnlyObject) Syntax() gosnmp.Asn1BER { return object.syntax }
 func (object readOnlyObject) Access() string         { return string(READ_ONLY) }
 func (object readOnlyObject) Status() string         { return string(object.status) }
-func (object readOnlyObject) Identifier() string     { return object.identifier }
+func (object readOnlyObject) Identifier(index int) string {
+	return fmt.Sprintf("%s.%d", object.identifier, +index)
+}
 
 type readAndWriteObject struct {
 	objectType string
@@ -66,7 +69,9 @@ func (object readAndWriteObject) ObjectType() string     { return object.objectT
 func (object readAndWriteObject) Syntax() gosnmp.Asn1BER { return object.syntax }
 func (object readAndWriteObject) Access() string         { return string(READ_AND_WRITE) }
 func (object readAndWriteObject) Status() string         { return string(object.status) }
-func (object readAndWriteObject) Identifier() string     { return object.identifier }
+func (object readAndWriteObject) Identifier(index int) string {
+	return fmt.Sprintf("%s.%d", object.identifier, +index)
+}
 func (object readAndWriteObject) WriteIdentifier(input interface{}) (pdu gosnmp.SnmpPDU, err error) {
 	// Todo Check if object syntax matches input type
 	pdu = gosnmp.SnmpPDU{
