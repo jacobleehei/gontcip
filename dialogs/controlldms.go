@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/gosnmp/gosnmp"
-	ntcip "github.com/jacobleehei/gontcip"
+	d "github.com/jacobleehei/godms"
 )
 
 /**********************************************************************************************
@@ -45,20 +45,20 @@ func ActivatingMessage(
 	var pixelserviceOnTargetMessageNumber int
 
 	getResults, err := dms.Get([]string{
-		ntcip.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber),
-		ntcip.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber),
-		ntcip.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber),
+		d.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber),
+		d.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber),
+		d.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber),
 	})
 	if err != nil {
 		return errors.Wrap(err, "get dms failed")
 	}
 	for _, variable := range getResults.Variables {
 		switch variable.Name {
-		case ntcip.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber):
+		case d.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber):
 			multiStringOnTargetMessageNumber = string(variable.Value.([]uint8))
-		case ntcip.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber):
+		case d.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber):
 			beaconOnTargetMessageNumber = variable.Value.(int)
-		case ntcip.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber):
+		case d.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber):
 			pixelserviceOnTargetMessageNumber = variable.Value.(int)
 		default:
 			return errors.New("no avaliable results")
@@ -73,7 +73,7 @@ func ActivatingMessage(
 	if err != nil {
 		return errors.Wrap(err, "encode activate message failed")
 	}
-	activeMessagePDU, err := ntcip.DmsActivateMessage.WriteIdentifier(activeMessageCode)
+	activeMessagePDU, err := d.DmsActivateMessage.WriteIdentifier(activeMessageCode)
 	if err != nil {
 		return errors.Wrap(err, "write activate message object identifier failed")
 	}
@@ -87,13 +87,13 @@ func ActivatingMessage(
 		// If the response indicates 'noError', the message has been activated and the management station
 		// shall GET shortErrorStatus.0 to ensure that there are no errors preventing the display of the message
 		// (e.g. a 'criticalTemperature' alarm). The management station may then exit the process.
-		getResult, err := ntcip.GetSingleOID(dms, ntcip.ShortErrorStatus.Identifier())
+		getResult, err := d.GetSingleOID(dms, d.ShortErrorStatus.Identifier())
 		if err != nil {
 			return errors.Wrap(err, "dms get next failed")
 		}
 
 		if getResult.Value != nil {
-			formatResult, err := ntcip.Format(ntcip.ShortErrorStatus, getResult.Value)
+			formatResult, err := d.Format(d.ShortErrorStatus, getResult.Value)
 			if err != nil {
 				return errors.Wrap(err, "format short error startus failed")
 			}
@@ -139,9 +139,9 @@ func DefiningMessage(
 	}
 
 	// The management station shall SET dmsMessageStatus.x.y to 'modifyReq'.
-	dmsMessageStatusName := ntcip.DmsMessageStatus.Identifier(messageMemoryType, messageNumber)
+	dmsMessageStatusName := d.DmsMessageStatus.Identifier(messageMemoryType, messageNumber)
 	_, err := dms.Set([]gosnmp.SnmpPDU{{
-		Value: ntcip.ModifyReq.Int(),
+		Value: d.ModifyReq.Int(),
 		Name:  dmsMessageStatusName,
 		Type:  gosnmp.Integer,
 	}})
@@ -150,16 +150,16 @@ func DefiningMessage(
 	}
 
 	// The management station shall GET dmsMessageStatus.x.y.
-	result, err := ntcip.GetSingleOID(dms, dmsMessageStatusName)
+	result, err := d.GetSingleOID(dms, dmsMessageStatusName)
 	if err != nil {
 		return errors.Wrap(err, "get message status failed")
 	}
 
-	if result.Value.(int) != ntcip.Modifying.Int() {
+	if result.Value.(int) != d.Modifying.Int() {
 		// If the value is not 'modifying', exit the process. In this case, the management station may SET
 		// dmsMessageStatus.x.y to 'notUsedReq' and attempt to restart this process from the beginning. (See
 		// Section 4.3.4 for a complete description of the Message Table State Machine.)
-		return fmt.Errorf("message status parameter returns wrong value: %d. expect: %d", result.Value.(int), ntcip.Modifying.Int())
+		return fmt.Errorf("message status parameter returns wrong value: %d. expect: %d", result.Value.(int), d.Modifying.Int())
 	}
 
 	// The management station shall SET the following data to the desired values:
@@ -169,18 +169,18 @@ func DefiningMessage(
 	_, err = dms.Set(
 		[]gosnmp.SnmpPDU{{
 			Value: mutiString,
-			Name:  ntcip.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber),
-			Type:  ntcip.DmsMessageMultiString.Syntax(),
+			Name:  d.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber),
+			Type:  d.DmsMessageMultiString.Syntax(),
 		},
 			{
 				Value: ownerAddress,
-				Name:  ntcip.DmsMessageOwner.Identifier(messageMemoryType, messageNumber),
-				Type:  ntcip.DmsMessageOwner.Syntax(),
+				Name:  d.DmsMessageOwner.Identifier(messageMemoryType, messageNumber),
+				Type:  d.DmsMessageOwner.Syntax(),
 			},
 			{
 				Value: priority,
-				Name:  ntcip.DmsMessageRunTimePriority.Identifier(messageMemoryType, messageNumber),
-				Type:  ntcip.DmsMessageRunTimePriority.Syntax(),
+				Name:  d.DmsMessageRunTimePriority.Identifier(messageMemoryType, messageNumber),
+				Type:  d.DmsMessageRunTimePriority.Syntax(),
 			},
 		})
 	if err != nil {
@@ -195,8 +195,8 @@ func DefiningMessage(
 	// (0).
 	_, err = dms.Set([]gosnmp.SnmpPDU{{
 		Value: beacon,
-		Name:  ntcip.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber),
-		Type:  ntcip.DmsMessageBeacon.Syntax(),
+		Name:  d.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber),
+		Type:  d.DmsMessageBeacon.Syntax(),
 	}})
 	if err != nil {
 		return errors.Wrap(err, "set beacon failed")
@@ -210,8 +210,8 @@ func DefiningMessage(
 	// (0).
 	_, err = dms.Set([]gosnmp.SnmpPDU{{
 		Value: pixelService,
-		Name:  ntcip.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber),
-		Type:  ntcip.DmsMessagePixelService.Syntax(),
+		Name:  d.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber),
+		Type:  d.DmsMessagePixelService.Syntax(),
 	}})
 	if err != nil {
 		return errors.Wrap(err, "set pixel service failed")
@@ -221,7 +221,7 @@ func DefiningMessage(
 	// controller to initiate a consistency check on the message. (See Section 4.3.5 for a description of this
 	// consistency check.)
 	_, err = dms.Set([]gosnmp.SnmpPDU{{
-		Value: ntcip.ValidateReq.Int(),
+		Value: d.ValidateReq.Int(),
 		Name:  dmsMessageStatusName,
 		Type:  gosnmp.Integer,
 	}})
@@ -232,11 +232,11 @@ func DefiningMessage(
 	// The management station shall repeatedly GET dmsMessageStatus.x.y until the value is not
 	// 'validating' or a time-out has been reached.
 	timeout := 10
-	for result.Value.(int) != ntcip.Valid.Int() {
+	for result.Value.(int) != d.Valid.Int() {
 		if timeout == 0 {
 			goto GET_VALIDATE_MESSAGE_ERROR
 		}
-		result, err = ntcip.GetSingleOID(dms, dmsMessageStatusName)
+		result, err = d.GetSingleOID(dms, dmsMessageStatusName)
 		if err != nil {
 			return errors.Wrap(err, "get message status failed")
 		}
@@ -291,10 +291,10 @@ func RetrievingMessage(
 	// 3) dmsMessageRunTimePriority.x.y
 	// 4) dmsMessageStatus.x.y
 	var oids = []string{
-		ntcip.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber),
-		ntcip.DmsMessageOwner.Identifier(messageMemoryType, messageNumber),
-		ntcip.DmsMessageRunTimePriority.Identifier(messageMemoryType, messageNumber),
-		ntcip.DmsMessageStatus.Identifier(messageMemoryType, messageNumber),
+		d.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber),
+		d.DmsMessageOwner.Identifier(messageMemoryType, messageNumber),
+		d.DmsMessageRunTimePriority.Identifier(messageMemoryType, messageNumber),
+		d.DmsMessageStatus.Identifier(messageMemoryType, messageNumber),
 	}
 
 	getResults, err := dms.Get(oids)
@@ -303,13 +303,13 @@ func RetrievingMessage(
 	}
 	for _, variable := range getResults.Variables {
 		switch variable.Name {
-		case ntcip.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber):
+		case d.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber):
 			result.DmsMessageMultiString = string(variable.Value.([]uint8))
-		case ntcip.DmsMessageOwner.Identifier(messageMemoryType, messageNumber):
+		case d.DmsMessageOwner.Identifier(messageMemoryType, messageNumber):
 			result.DmsMessageOwner = string(variable.Value.([]uint8))
-		case ntcip.DmsMessageRunTimePriority.Identifier(messageMemoryType, messageNumber):
+		case d.DmsMessageRunTimePriority.Identifier(messageMemoryType, messageNumber):
 			result.DmsMessageRunTimePriority = variable.Value.(int)
-		case ntcip.DmsMessageStatus.Identifier(messageMemoryType, messageNumber):
+		case d.DmsMessageStatus.Identifier(messageMemoryType, messageNumber):
 			result.DmsMessageStatus = variable.Value.(int)
 		}
 	}
@@ -319,7 +319,7 @@ func RetrievingMessage(
 	// support this optional feature. This error will not affect the sequence of this dialog, but the
 	// management station should be aware that the CRC will be calculated with this value defaulted to zero
 	// (0).
-	getResult, _ := ntcip.GetSingleOID(dms, ntcip.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber))
+	getResult, _ := d.GetSingleOID(dms, d.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber))
 	if err != nil {
 		return result, errors.Wrap(err, "get dmsMessageBeacon failed")
 	}
@@ -331,7 +331,7 @@ func RetrievingMessage(
 	// support this optional feature. This error will not affect the sequence of this dialog, but the
 	// management station should be aware that the CRC will be calculated with this value defaulted to zero
 	// (0).
-	getResult, _ = ntcip.GetSingleOID(dms, ntcip.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber))
+	getResult, _ = d.GetSingleOID(dms, d.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber))
 	if err != nil {
 		return result, errors.Wrap(err, "get dmsMessagePixelService failed")
 	}

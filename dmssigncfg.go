@@ -1,4 +1,4 @@
-package gontcip
+package godms
 
 /********************************************************************
 Sign Configuration and Capability Objects

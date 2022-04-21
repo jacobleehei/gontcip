@@ -1,4 +1,4 @@
-package gontcip
+package godms
 
 /***************************************************************************
 VMS Configuration Objects

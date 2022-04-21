@@ -1,4 +1,4 @@
-package gontcip
+package godms
 
 /*******************************************************************
 Font Definition Objects

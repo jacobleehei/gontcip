@@ -1,4 +1,4 @@
-package gontcip
+package godms
 
 // Simple function for formatting the result to human readable format
 func Format(objects Reader, getResult interface{}) (result interface{}, err error) {
