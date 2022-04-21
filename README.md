@@ -1,9 +1,9 @@
-<h1 align="left">gontcip</h1>
+<h1 align="left">godms</h1>
 
 <!-- Status -->
 
 <h4 align="center">
-	🚧  Gontcip 🚀 Under construction...  🚧
+	🚧  Godms 🚀 Under construction...  🚧
 </h4>
 
 <hr>
@@ -20,11 +20,11 @@
 
 ## :dart: About
 
-GoNTCIP is a libary fully written in Go. It is written following NTCIP1203 version-v03 (https://www.ntcip.org/file/2018/11/NTCIP1203v03f.pdf) logical interface. It provides the standardized dialogs that fulfill various requirements.
+GoDMS is a libary fully written in Go. It is written following NTCIP1203 version-v03 (https://www.ntcip.org/file/2018/11/NTCIP1203v03f.pdf) logical interface. It provides the standardized dialogs that fulfill various requirements.
 
 ## :sparkles: Features
 
-GoNTCIP has the Following functions for NTCIP Diaglogs.
+GoDMS has the Following functions for NTCIP-DMS Diaglogs.
 
 - Calculating the Checksum Value;
 
