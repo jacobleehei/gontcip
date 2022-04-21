@@ -69,7 +69,7 @@ GoDMS has the Following functions for NTCIP-DMS Diaglogs.
 ## :checkered_flag: Starting
 
 ```bash
-go get github.com/jacobleehei/gontcip
+go get github.com/jacobleehei/godms
 ```
 
 ## :memo: License
