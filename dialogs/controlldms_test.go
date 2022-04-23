@@ -31,6 +31,7 @@ func TestActivatingMessage(t *testing.T) {
 		args        args
 		wantResults []string
 		wantErr     bool
+		wantResult  activatingMessageResult
 	}{
 		// TODO: Add test cases.
 		{
@@ -42,15 +43,19 @@ func TestActivatingMessage(t *testing.T) {
 				messageMemoryType: 3,
 				messageNumber:     1,
 			},
-			wantErr: false,
+			wantErr:    false,
+			wantResult: activatingMessageResult{},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := ActivatingMessage(tt.args.dms, tt.args.duration, tt.args.priority, tt.args.messageMemoryType, tt.args.messageNumber)
+			gotResult, err := ActivatingMessage(tt.args.dms, tt.args.duration, tt.args.priority, tt.args.messageMemoryType, tt.args.messageNumber)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ActivatingMessage() error = %v, wantErr %v", err, tt.wantErr)
 				return
+			}
+			if !reflect.DeepEqual(gotResult, tt.wantResult) {
+				t.Errorf("RetrievingMessage() = %v, want %v", gotResult, tt.wantResult)
 			}
 		})
 	}
