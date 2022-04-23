@@ -18,15 +18,15 @@
 
 <br>
 
-## :dart: About
+## About
 
 GoDMS is a libary fully written in Go. It is written following NTCIP1203 version-v03 (https://www.ntcip.org/file/2018/11/NTCIP1203v03f.pdf) logical interface. It provides the standardized dialogs that fulfill various requirements.
 
-## :sparkles: Features
+## Features
 
 GoDMS has the Following functions for NTCIP-DMS Diaglogs.
 
-- Calculating the Checksum Value;
+- Calculating the Checksum Value
 
 ### Managing the DMS Configuration
 
@@ -66,17 +66,17 @@ GoDMS has the Following functions for NTCIP-DMS Diaglogs.
 - Monitoring the Current Message
 - Monitoring Dynamic Field Values
 
-## :checkered_flag: Starting
+## Starting
 
 ```bash
 go get github.com/jacobleehei/godms
 ```
 
-## :memo: License
+<!-- ## :memo: License
 
-This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
+This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file. -->
 
-Made with :heart: by <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">Jacob Lee</a>
+Made with :heart: by <a href="https://github.com/jacobleehei/godms" target="_blank">Jacob Lee</a>
 
 &#xa0;
 
