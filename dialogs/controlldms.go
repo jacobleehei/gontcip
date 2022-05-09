@@ -2,6 +2,7 @@ package dialogs
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -153,7 +154,7 @@ func ActivatingMessage(
 			return activeResult, errors.Wrap(err, "get dmsMultiSyntaxError failed")
 		}
 		for _, variable := range result.Variables {
-			if variable.Name == d.DmsMultiSyntaxError.Identifier(0) {
+			if strings.Contains(variable.Name, d.DmsMultiSyntaxError.Identifier(0)) {
 				result, err := d.Format(d.DmsMultiSyntaxError, variable.Value)
 				if err != nil {
 					return activeResult, errors.Wrap(err, "format dmsMultiSyntaxError failed")
@@ -161,7 +162,7 @@ func ActivatingMessage(
 				activeResult.DmsMultiSyntaxError = result.(string)
 			}
 
-			if variable.Name == d.DmsMultiSyntaxErrorPosition.Identifier(0) {
+			if strings.Contains(variable.Name, d.DmsMultiSyntaxErrorPosition.Identifier(0)) {
 				activeResult.DmsMultiSyntaxErrorPosition = variable.Value.(int)
 			}
 		}
@@ -189,38 +190,45 @@ func ActivatingMessage(
 // Preconditions2:
 // The management station shall ensure that there is sufficient
 // storage space remaining for the message to be downloaded.
+type definingMessageResult struct {
+	DmsValidateMessageError       int
+	DmsMultiSyntaxError           string
+	DmsMultiSyntaxErrorPosition   int
+	DmsMultiOtherErrorDescription int
+}
+
 func DefiningMessage(
 	dms *gosnmp.GoSNMP,
 	messageMemoryType, messageNumber int,
 	mutiString, ownerAddress string, priority int,
 	beacon, pixelService int,
-) error {
+) (defineResult definingMessageResult, err error) {
 	if err := dms.Connect(); err != nil {
-		return err
+		return defineResult, err
 	}
 
 	// The management station shall SET dmsMessageStatus.x.y to 'modifyReq'.
 	dmsMessageStatusName := d.DmsMessageStatus.Identifier(messageMemoryType, messageNumber)
-	_, err := dms.Set([]gosnmp.SnmpPDU{{
+	_, err = dms.Set([]gosnmp.SnmpPDU{{
 		Value: d.ModifyReq.Int(),
 		Name:  dmsMessageStatusName,
 		Type:  gosnmp.Integer,
 	}})
 	if err != nil {
-		return errors.Wrap(err, "set message status failed")
+		return defineResult, errors.Wrap(err, "set message status failed")
 	}
 
 	// The management station shall GET dmsMessageStatus.x.y.
 	result, err := d.GetSingleOID(dms, dmsMessageStatusName)
 	if err != nil {
-		return errors.Wrap(err, "get message status failed")
+		return defineResult, errors.Wrap(err, "get message status failed")
 	}
 
 	if result.Value.(int) != d.Modifying.Int() {
 		// If the value is not 'modifying', exit the process. In this case, the management station may SET
 		// dmsMessageStatus.x.y to 'notUsedReq' and attempt to restart this process from the beginning. (See
 		// Section 4.3.4 for a complete description of the Message Table State Machine.)
-		return fmt.Errorf("message status parameter returns wrong value: %d. expect: %d", result.Value.(int), d.Modifying.Int())
+		return defineResult, fmt.Errorf("message status parameter returns wrong value: %d. expect: %d", result.Value.(int), d.Modifying.Int())
 	}
 
 	// The management station shall SET the following data to the desired values:
@@ -245,7 +253,7 @@ func DefiningMessage(
 			},
 		})
 	if err != nil {
-		return errors.Wrap(err, "set mutiString failed")
+		return defineResult, errors.Wrap(err, "set mutiString failed")
 	}
 
 	// (Required step only if Requirement 3.6.6.5 Beacon Activation Flag is selected as Yes in PRL) The
@@ -260,7 +268,7 @@ func DefiningMessage(
 		Type:  d.DmsMessageBeacon.Syntax(),
 	}})
 	if err != nil {
-		return errors.Wrap(err, "set beacon failed")
+		return defineResult, errors.Wrap(err, "set beacon failed")
 	}
 
 	// (Required step only if 2.3.2.2.1 Fiber or 2.3.2.2.3 Flip/Shutter is selected as Yes in PRL) The
@@ -275,7 +283,7 @@ func DefiningMessage(
 		Type:  d.DmsMessagePixelService.Syntax(),
 	}})
 	if err != nil {
-		return errors.Wrap(err, "set pixel service failed")
+		return defineResult, errors.Wrap(err, "set pixel service failed")
 	}
 
 	// The management station shall SET dmsMessageStatus.x.y to 'validateReq'. This will cause the
@@ -287,32 +295,68 @@ func DefiningMessage(
 		Type:  gosnmp.Integer,
 	}})
 	if err != nil {
-		return errors.Wrap(err, "set message status failed")
+		return defineResult, errors.Wrap(err, "set message status failed")
 	}
 
 	// The management station shall repeatedly GET dmsMessageStatus.x.y until the value is not
 	// 'validating' or a time-out has been reached.
-	timeout := 10
+	timeout := 3
 	for result.Value.(int) != d.Valid.Int() {
 		if timeout == 0 {
 			goto GET_VALIDATE_MESSAGE_ERROR
 		}
 		result, err = d.GetSingleOID(dms, dmsMessageStatusName)
 		if err != nil {
-			return errors.Wrap(err, "get message status failed")
+			return defineResult, errors.Wrap(err, "get message status failed")
 		}
 		time.Sleep(1 * time.Second)
 		timeout--
 	}
 	// If the value is 'valid', exit the process. Otherwise, the management station shall GET
 	// dmsValidateMessageError.0 to determine the reason the message was not validated.
-	return nil
+	return
 GET_VALIDATE_MESSAGE_ERROR:
+	dmsValidateMessageErrorResult, err := d.GetSingleOID(dms, d.DmsValidateMessageError.Identifier(0))
+	if err != nil {
+		return defineResult, errors.Wrap(err, "get dmsValidateMessageError failed")
+	}
 
 	// If the value is 'syntaxMULTI', the management station shall GET the following data to determine the
 	// error details:
 	// 1) dmsMultiSyntaxError.0
 	// 2) dmsMultiSyntaxErrorPosition.0
+	defineResult.DmsValidateMessageError = result.Value.(int)
+	if dmsValidateMessageErrorResult.Value == d.SyntaxMULTI.Int() {
+		result, err := dms.Get([]string{
+			d.DmsMultiSyntaxError.Identifier(0),
+			d.DmsMultiSyntaxErrorPosition.Identifier(0),
+		})
+		if err != nil {
+			return defineResult, errors.Wrap(err, "get DmsMultiSyntaxError or DmsMultiSyntaxErrorPosition failed")
+		}
+
+		result, err = dms.Get([]string{
+			d.DmsMultiSyntaxError.Identifier(0),
+			d.DmsMultiSyntaxErrorPosition.Identifier(0),
+		})
+		if err != nil {
+			return defineResult, errors.Wrap(err, "get dmsMultiSyntaxError failed")
+		}
+		for _, variable := range result.Variables {
+			if strings.Contains(variable.Name, d.DmsMultiSyntaxError.Identifier(0)) {
+				result, err := d.Format(d.DmsMultiSyntaxError, variable.Value)
+				if err != nil {
+					return defineResult, errors.Wrap(err, "format dmsMultiSyntaxError failed")
+				}
+				defineResult.DmsMultiSyntaxError = result.(string)
+			}
+
+			if strings.Contains(variable.Name, d.DmsMultiSyntaxErrorPosition.Identifier(0)) {
+				defineResult.DmsMultiSyntaxErrorPosition = variable.Value.(int)
+			}
+		}
+
+	}
 
 	// If the value is 'other', the management station shall GET the following data to determine the error
 	// details:
@@ -321,10 +365,17 @@ GET_VALIDATE_MESSAGE_ERROR:
 	// Where:
 	// x = message type
 	// y = message number
+	if dmsValidateMessageErrorResult.Value == d.Other.Int() {
+		dmsMultiOtherErrorDescriptionResult, err := d.GetSingleOID(dms, d.DmsMultiOtherErrorDescription.Identifier(0))
+		if err != nil {
+			return defineResult, errors.Wrap(err, "get DmsMultiOtherErrorDescription failed")
+		}
 
+		defineResult.DmsMultiOtherErrorDescription = dmsMultiOtherErrorDescriptionResult.Value.(int)
+	}
 	// Note: If, at the end of this process, the value of dmsMessageStatus.x.y is 'valid', the message can
 	// be activated.
-	return errors.New("TO-DO") //@todo
+	return
 }
 
 type retrievingResult struct {
