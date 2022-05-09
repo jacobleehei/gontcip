@@ -303,11 +303,11 @@ var DmsMessageStatus = dmsMessageParameters{
 type dmsValidateMessageFormat int
 
 const (
-	other        dmsValidateMessageFormat = 1
-	none         dmsValidateMessageFormat = 2
-	beacons      dmsValidateMessageFormat = 3
-	pixelService dmsValidateMessageFormat = 4
-	syntaxMULTI  dmsValidateMessageFormat = 5
+	Other        dmsValidateMessageFormat = 1
+	None         dmsValidateMessageFormat = 2
+	Beacons      dmsValidateMessageFormat = 3
+	PixelService dmsValidateMessageFormat = 4
+	SyntaxMULTI  dmsValidateMessageFormat = 5
 )
 
 func (m dmsValidateMessageFormat) Int() int { return int(m) }
