@@ -300,6 +300,18 @@ var DmsMessageStatus = dmsMessageParameters{
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.9",
 }
 
+type dmsValidateMessageFormat int
+
+const (
+	other        dmsValidateMessageFormat = 1
+	none         dmsValidateMessageFormat = 2
+	beacons      dmsValidateMessageFormat = 3
+	pixelService dmsValidateMessageFormat = 4
+	syntaxMULTI  dmsValidateMessageFormat = 5
+)
+
+func (m dmsValidateMessageFormat) Int() int { return int(m) }
+
 // This is an error code used to identify why a message was not
 // validated. If multiple errors occur, only the first value is indicated. The
 // syntaxMULTI error is further detailed in the dmsMultiSyntaxError,
