@@ -1,7 +1,7 @@
 package dialogs
 
 import (
-	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -54,24 +54,48 @@ func ActivatingMessage(
 	var beaconOnTargetMessageNumber int
 	var pixelserviceOnTargetMessageNumber int
 
-	getResults, err := dms.Get([]string{
+	multistringAndBeaconResults, err := dms.Get([]string{
 		d.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber),
 		d.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber),
+	})
+	if err != nil {
+		return activeResult, errors.Wrap(err, "get dms failed")
+	}
+
+	for _, variable := range multistringAndBeaconResults.Variables {
+		switch variable.Name {
+		case d.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber):
+			if variable.Value == nil {
+				log.Printf("Get DmsMessage MultiString value nil at message number %v", messageNumber)
+				continue
+			}
+			multiStringOnTargetMessageNumber = string(variable.Value.([]uint8))
+		case d.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber):
+			if variable.Value == nil {
+				log.Printf("Get DmsMessage Beacon value nil at message number %v", messageNumber)
+				continue
+			}
+			beaconOnTargetMessageNumber = variable.Value.(int)
+		default:
+			return activeResult, errors.New("no avaliable results")
+		}
+	}
+
+	// seperate pixel service for nil value safety
+	pixelserviceResults, err := dms.Get([]string{
 		d.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber),
 	})
 	if err != nil {
 		return activeResult, errors.Wrap(err, "get dms failed")
 	}
-	for _, variable := range getResults.Variables {
+	for _, variable := range pixelserviceResults.Variables {
 		switch variable.Name {
-		case d.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber):
-			multiStringOnTargetMessageNumber = string(variable.Value.([]uint8))
-		case d.DmsMessageBeacon.Identifier(messageMemoryType, messageNumber):
-			beaconOnTargetMessageNumber = variable.Value.(int)
 		case d.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber):
+			if variable.Value == nil {
+				log.Printf("Get DmsMessage Pixel Service value nil at message number %v", messageNumber)
+				continue
+			}
 			pixelserviceOnTargetMessageNumber = variable.Value.(int)
-		default:
-			return activeResult, errors.New("no avaliable results")
 		}
 	}
 
@@ -228,7 +252,7 @@ func DefiningMessage(
 		// If the value is not 'modifying', exit the process. In this case, the management station may SET
 		// dmsMessageStatus.x.y to 'notUsedReq' and attempt to restart this process from the beginning. (See
 		// Section 4.3.4 for a complete description of the Message Table State Machine.)
-		return defineResult, fmt.Errorf("message status parameter returns wrong value: %d. expect: %d", result.Value.(int), d.Modifying.Int())
+		log.Printf("message status parameter returns wrong value: %d. expect: %d", result.Value.(int), d.Modifying.Int())
 	}
 
 	// The management station shall SET the following data to the desired values:
