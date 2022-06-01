@@ -25,13 +25,6 @@ func (object dmsMessageParameters) Identifier(messageMemoryType, messageNumber i
 }
 
 var MessageObjects = []Reader{
-	// NumberOfPermanentMessagesParameter,
-	// MessageMULTIStringParameter,
-	// MessageOwnerParameter,
-	// MessageBeaconParameter,
-	// MessagePixelServiceParameter,
-	// MessageRunTimePriorityParameter,
-	// MessageStatusParameter,
 	DmsNumChangeableMsg,
 	DmsMaxChangeableMsg,
 	DmsFreeChangeableMemory,
