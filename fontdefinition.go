@@ -234,6 +234,23 @@ var FontStatus = readAndWriteObject{
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.2.1.8",
 }
 
+type fontStatusFormat int
+
+const (
+	FontNotUsed        fontStatusFormat = 1
+	FontModifying      fontStatusFormat = 2
+	FontCalculatingID  fontStatusFormat = 3
+	FontReadyForUse    fontStatusFormat = 4
+	FontInUse          fontStatusFormat = 5
+	FontPermanent      fontStatusFormat = 6
+	FontModifyReq      fontStatusFormat = 7
+	FontReadyForUseReq fontStatusFormat = 8
+	FontNotUsedReq     fontStatusFormat = 9
+	FontUnmanagedReq   fontStatusFormat = 0
+)
+
+func (m fontStatusFormat) Int() int { return int(m) }
+
 // Indicates the maximum number of rows in the character table
 // that can exist for any given font.
 var MaxFontCharacters = readOnlyObject{
