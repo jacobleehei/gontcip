@@ -72,11 +72,12 @@ func (object readAndWriteObject) Status() string         { return string(object.
 func (object readAndWriteObject) Identifier(index int) string {
 	return fmt.Sprintf("%s.%d", object.identifier, +index)
 }
-func (object readAndWriteObject) WriteIdentifier(input interface{}) (pdu gosnmp.SnmpPDU, err error) {
+func (object readAndWriteObject) WriteIdentifier(input interface{}, optionsName ...int) (pdu gosnmp.SnmpPDU, err error) {
+	name := fmt.Sprintf(".%d", optionsName)
 	// Todo Check if object syntax matches input type
 	pdu = gosnmp.SnmpPDU{
 		Value: input,
-		Name:  object.identifier + ".0",
+		Name:  object.identifier + name,
 		Type:  object.syntax,
 	}
 	return
