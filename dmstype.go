@@ -73,7 +73,12 @@ func (object readAndWriteObject) Identifier(index int) string {
 	return fmt.Sprintf("%s.%d", object.identifier, +index)
 }
 func (object readAndWriteObject) WriteIdentifier(input interface{}, optionsName ...int) (pdu gosnmp.SnmpPDU, err error) {
-	name := fmt.Sprintf(".%d", optionsName)
+	var name string
+	if len(optionsName) > 0 {
+		name = fmt.Sprintf(".%d", optionsName[0])
+	} else {
+		name = fmt.Sprintf(".0")
+	}
 	// Todo Check if object syntax matches input type
 	pdu = gosnmp.SnmpPDU{
 		Value: input,
