@@ -248,11 +248,11 @@ func DefiningMessage(
 		return defineResult, errors.Wrap(err, "get message status failed")
 	}
 
-	if result.Value.(int) != d.Modifying.Int() {
+	if result.Value == nil || result.Value.(int) != d.Modifying.Int() {
 		// If the value is not 'modifying', exit the process. In this case, the management station may SET
 		// dmsMessageStatus.x.y to 'notUsedReq' and attempt to restart this process from the beginning. (See
 		// Section 4.3.4 for a complete description of the Message Table State Machine.)
-		log.Printf("message status parameter returns wrong value: %d. expect: %d", result.Value.(int), d.Modifying.Int())
+		log.Printf("message status parameter returns wrong value: %v. expect: %d", result.Value, d.Modifying.Int())
 	}
 
 	// The management station shall SET the following data to the desired values:
