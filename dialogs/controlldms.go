@@ -52,7 +52,7 @@ func ActivatingMessage(
 	// message contents, and a network address of the requester.
 	var multiStringOnTargetMessageNumber string
 	var beaconOnTargetMessageNumber int
-	var pixelserviceOnTargetMessageNumber int
+	var pixelServiceOnTargetMessageNumber int
 
 	multistringAndBeaconResults, err := dms.Get([]string{
 		d.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber),
@@ -77,30 +77,30 @@ func ActivatingMessage(
 			}
 			beaconOnTargetMessageNumber = variable.Value.(int)
 		default:
-			return activeResult, errors.New("no avaliable results")
+			return activeResult, errors.New("no available results")
 		}
 	}
 
-	// seperate pixel service for nil value safety
-	pixelserviceResults, err := dms.Get([]string{
+	// separate pixel service for nil value safety
+	pixelServiceResults, err := dms.Get([]string{
 		d.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber),
 	})
 	if err != nil {
 		return activeResult, errors.Wrap(err, "get dms failed")
 	}
-	for _, variable := range pixelserviceResults.Variables {
+	for _, variable := range pixelServiceResults.Variables {
 		switch variable.Name {
 		case d.DmsMessagePixelService.Identifier(messageMemoryType, messageNumber):
 			if variable.Value == nil {
 				log.Printf("Get DmsMessage Pixel Service value nil at message number %v", messageNumber)
 				continue
 			}
-			pixelserviceOnTargetMessageNumber = variable.Value.(int)
+			pixelServiceOnTargetMessageNumber = variable.Value.(int)
 		}
 	}
 
 	activeMessageCode, err := EncodeActivateMessageCode(
-		multiStringOnTargetMessageNumber, beaconOnTargetMessageNumber, pixelserviceOnTargetMessageNumber,
+		multiStringOnTargetMessageNumber, beaconOnTargetMessageNumber, pixelServiceOnTargetMessageNumber,
 		messageMemoryType, duration, priority, messageNumber,
 		"127.0.0.1",
 	)
@@ -130,7 +130,7 @@ func ActivatingMessage(
 		var formatResult interface{}
 		formatResult, err = d.Format(d.ShortErrorStatus, getResult.Value)
 		if err != nil {
-			return activeResult, errors.Wrap(err, "format short error startus failed")
+			return activeResult, errors.Wrap(err, "format short error stratus failed")
 		}
 
 		activeResult.ShortErrorStatus = formatResult.([]string)
@@ -224,7 +224,7 @@ type definingMessageResult struct {
 func DefiningMessage(
 	dms *gosnmp.GoSNMP,
 	messageMemoryType, messageNumber int,
-	mutiString, ownerAddress string, priority int,
+	multiString, ownerAddress string, priority int,
 	beacon, pixelService int,
 ) (defineResult definingMessageResult, err error) {
 	if err := dms.Connect(); err != nil {
@@ -261,7 +261,7 @@ func DefiningMessage(
 	// 3) dmsMessageRunTimePriority.x.y
 	_, err = dms.Set(
 		[]gosnmp.SnmpPDU{{
-			Value: mutiString,
+			Value: multiString,
 			Name:  d.DmsMessageMultiString.Identifier(messageMemoryType, messageNumber),
 			Type:  d.DmsMessageMultiString.Syntax(),
 		},
@@ -277,7 +277,7 @@ func DefiningMessage(
 			},
 		})
 	if err != nil {
-		return defineResult, errors.Wrap(err, "set mutiString failed")
+		return defineResult, errors.Wrap(err, "set multiString failed")
 	}
 
 	// (Required step only if Requirement 3.6.6.5 Beacon Activation Flag is selected as Yes in PRL) The
@@ -406,7 +406,7 @@ type retrievingResult struct {
 	DmsMessageMultiString     string
 	DmsMessageOwner           string
 	DmsMessageRunTimePriority int
-	DmsMessageStatus          int // the return shall be 4(Vaild)
+	DmsMessageStatus          int // the return shall be 4(Valid)
 	DmsMessageBeacon          int
 	DmsMessagePixelService    int
 }

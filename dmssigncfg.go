@@ -22,7 +22,7 @@ var SignConfigurationAndCapabilityObjects = []Reader{
 //Indicates the access method to the sign.
 var DmsSignAccess = readOnlyObject{
 	objectType: "dmsSignAccess",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.1.1",
 }
@@ -30,7 +30,7 @@ var DmsSignAccess = readOnlyObject{
 //Indicates the type of sign.
 var DmsSignType = readOnlyObject{
 	objectType: "dmsSignType",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.1.2",
 }
@@ -38,7 +38,7 @@ var DmsSignType = readOnlyObject{
 //Indicates the sign height in millimeters including the border (dmsVerticalBorder).
 var DmsSignHeight = readOnlyObject{
 	objectType: "dmsSignHeight",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.1.3",
 }
@@ -46,7 +46,7 @@ var DmsSignHeight = readOnlyObject{
 //Indicates the sign width in millimeters including the border (dmsHorizontalBorder).
 var DmsSignWidth = readOnlyObject{
 	objectType: "dmsSignWidth",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.1.4",
 }
@@ -54,7 +54,7 @@ var DmsSignWidth = readOnlyObject{
 //Indicates the minimum border distance, in millimeters, that exists on the left and right sides of the sign.
 var DmsHorizontalBorder = readOnlyObject{
 	objectType: "dmsHorizontalBorder",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.1.5",
 }
@@ -62,7 +62,7 @@ var DmsHorizontalBorder = readOnlyObject{
 //Indicates the minimum border distance, in millimeters, that exists on the top and bottom of the sign.
 var DmsVerticalBorder = readOnlyObject{
 	objectType: "dmsVerticalBorder",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.1.6",
 }
@@ -70,7 +70,7 @@ var DmsVerticalBorder = readOnlyObject{
 //Indicates if a Legend is shown on the sign
 var DmsLegend = readOnlyObject{
 	objectType: "dmsLegend",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.1.7",
 }
@@ -78,7 +78,7 @@ var DmsLegend = readOnlyObject{
 //Indicates the configuration of the type, numbers and flashing patterns of beacons on a sign.
 var DmsBeaconType = readOnlyObject{
 	objectType: "dmsBeaconType",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.1.8",
 }
@@ -86,7 +86,7 @@ var DmsBeaconType = readOnlyObject{
 //Indicates the utilized technology in a bitmap format  (Hybrids will have to set the bits for all technologies that the sign utilizes).
 var DmsSignTechnology = readOnlyObject{
 	objectType: "dmsSignTechnology",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.1.9",
 }

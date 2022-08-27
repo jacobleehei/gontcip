@@ -54,7 +54,7 @@ var MultiConfigurationObjects = []Reader{
 // returned.
 var DefaultBackgroundColor = readAndWriteObject{
 	objectType: "defaultBackgroundColor",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.1",
 }
@@ -77,7 +77,7 @@ var DefaultBackgroundColor = readAndWriteObject{
 // color is requested that is not supported, then a genErr shall be returned.
 var DefaultForegroundColor = readAndWriteObject{
 	objectType: "defaultForegroundColor",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.2",
 }
@@ -89,7 +89,7 @@ var DefaultForegroundColor = readAndWriteObject{
 // <Unit>tenth of seconds
 var DefaultFlashOn = readAndWriteObject{
 	objectType: "defaultFlashOn",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.3",
 }
@@ -101,7 +101,7 @@ var DefaultFlashOn = readAndWriteObject{
 // <Unit>tenth of seconds
 var DefaultFlashOnActivate = readAndWriteObject{
 	objectType: "defaultFlashOnActivate",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.17",
 }
@@ -113,7 +113,7 @@ var DefaultFlashOnActivate = readAndWriteObject{
 // <Unit>tenth of seconds
 var DefaultFlashOff = readAndWriteObject{
 	objectType: "defaultFlashOff",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.4",
 }
@@ -124,7 +124,7 @@ var DefaultFlashOff = readAndWriteObject{
 // when the message was copied into the currentBuffer.
 var DefaultFlashOffActivate = readOnlyObject{
 	objectType: "defaultFlashOffActivate",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.18",
 }
@@ -134,7 +134,7 @@ var DefaultFlashOffActivate = readOnlyObject{
 // 3.5.2.3.2.4 for more information.
 var DefaultFont = readAndWriteObject{
 	objectType: "defaultFont",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.5",
 }
@@ -145,7 +145,7 @@ var DefaultFont = readAndWriteObject{
 // when the message was copied into the currentBuffer.
 var DefaultFontActivate = readOnlyObject{
 	objectType: "defaultFontActivate",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.19",
 }
@@ -155,7 +155,7 @@ var DefaultFontActivate = readOnlyObject{
 // more information.
 var DefaultJustificationLine = readAndWriteObject{
 	objectType: "defaultJustificationLine",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.6",
 }
@@ -166,7 +166,7 @@ var DefaultJustificationLine = readAndWriteObject{
 // the time when the message was copied into the currentBuffer.
 var DefaultJustificationLineActivate = readOnlyObject{
 	objectType: "defaultJustificationLineActivate",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.20",
 }
@@ -176,7 +176,7 @@ var DefaultJustificationLineActivate = readOnlyObject{
 // more information.
 var DefaultJustificationPage = readAndWriteObject{
 	objectType: "defaultJustificationPage",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.7",
 }
@@ -187,7 +187,7 @@ var DefaultJustificationPage = readAndWriteObject{
 // the time when the message was copied into the currentBuffer.
 var DefaultJustificationPageActivate = readOnlyObject{
 	objectType: "defaultJustificationPageActivate",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.21",
 }
@@ -198,7 +198,7 @@ var DefaultJustificationPageActivate = readOnlyObject{
 // implementation; see Section 3.5.2.3.2.7 for more information.
 var DefaultPageOnTime = readAndWriteObject{
 	objectType: "defaultPageOnTime",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.8",
 }
@@ -209,7 +209,7 @@ var DefaultPageOnTime = readAndWriteObject{
 // when the message was copied into the currentBuffer.
 var DefaultPageOnTimeActivate = readOnlyObject{
 	objectType: "defaultPageOnTimeActivate",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.22",
 }
@@ -220,7 +220,7 @@ var DefaultPageOnTimeActivate = readOnlyObject{
 // implementation; see Section 3.5.2.3.2.7 for more information.
 var DefaultPageOffTime = readAndWriteObject{
 	objectType: "defaultPageOffTime",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.9",
 }
@@ -231,7 +231,7 @@ var DefaultPageOffTime = readAndWriteObject{
 // when the message was copied into the currentBuffer.
 var DefaultPageOffTimeActivate = readOnlyObject{
 	objectType: "defaultPageOffTimeActivate",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.23",
 }
@@ -308,7 +308,7 @@ var DefaultForegroundRGB = readAndWriteObject{
 // the time when the message was copied into the currentBuffer.
 var DefaultForegroundRGBActivate = readOnlyObject{
 	objectType: "defaultForegroundRGBActivate",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.25",
 }
@@ -323,7 +323,7 @@ var DefaultForegroundRGBActivate = readOnlyObject{
 // for more information.
 var DefaultCharacterSet = readAndWriteObject{
 	objectType: "defaultCharacterSet",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.10",
 }
@@ -359,7 +359,7 @@ var DefaultCharacterSet = readAndWriteObject{
 // single color parameter (e.g. [cfx]) as colorClassic.
 var DmsColorScheme = readOnlyObject{
 	objectType: "dmsColorScheme",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.11",
 }
@@ -370,7 +370,7 @@ var DmsColorScheme = readOnlyObject{
 // does not support the corresponding tag.
 var DmsSupportedMultiTags = readOnlyObject{
 	objectType: "dmsSupportedMultiTags",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.14",
 }
@@ -388,7 +388,7 @@ var DmsMaxNumberPages = readOnlyObject{
 // dmsMessageMultiString.
 var DmsMaxMultiStringLength = readOnlyObject{
 	objectType: "dmsMaxMultiStringLength",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.4.16",
 }

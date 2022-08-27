@@ -53,7 +53,7 @@ var SignControlObjects = []Reader{
 //      happen because the controller only simulates.
 var DmsControlMode = readAndWriteObject{
 	objectType: "dmsControlMode",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.1",
 }
@@ -64,7 +64,7 @@ var DmsControlMode = readAndWriteObject{
 // zero (0) = no reset, value one (1) = reset.
 var DmsSWReset = readAndWriteObject{
 	objectType: "dmsSWReset",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.2",
 }
@@ -134,7 +134,7 @@ var DmsActivateMessage = readAndWriteObject{
 // result in the immediate display of the dmsEndDurationMessage.
 var DmsMessageTimeRemaining = readAndWriteObject{
 	objectType: "dmsMessageTimeRemaining",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.4",
 }
@@ -201,7 +201,7 @@ var DmsMsgRequesterID = readOnlyObject{
 //      the settings within the dmsEndDurationMessage object.
 var DmsMsgSourceMode = readAndWriteObject{
 	objectType: "dmsMsgSourceMode",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.7",
 }
@@ -250,7 +250,7 @@ var DmsLongPowerRecoveryMessage = readAndWriteObject{
 // losses.
 var DmsShortPowerLossTime = readAndWriteObject{
 	objectType: "dmsShortPowerLossTime",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.10",
 }
@@ -310,7 +310,7 @@ var DmsCommunicationsLossMessage = readAndWriteObject{
 // 'centralOverride (5)'.
 var DmsTimeCommLoss = readAndWriteObject{
 	objectType: "dmsTimeCommLoss",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.13",
 }
@@ -369,7 +369,7 @@ var DmsEndDurationMessage = readAndWriteObject{
 // fonts.
 var DmsMemoryMgmt = readAndWriteObject{
 	objectType: "dmsMemoryMgmt",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.16",
 }
@@ -435,7 +435,7 @@ var DmsMemoryMgmt = readAndWriteObject{
 // message stored in the currentBuffer.
 var DmsActivateMsgError = readOnlyObject{
 	objectType: "dmsActivateMsgError",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.17",
 }
@@ -491,7 +491,7 @@ func formatDmsActivateMsgError(getResult interface{}) (result interface{}, err e
 //   graphicNotDefined (15):  The graphic is not defined in this device.
 var DmsMultiSyntaxError = readOnlyObject{
 	objectType: "dmsMultiSyntaxError",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.18",
 }
@@ -527,7 +527,7 @@ func formatDmsMultiSyntaxError(getResult interface{}) (interface{}, error) {
 // SYNTAX error occurred.
 var DmsMultiSyntaxErrorPosition = readOnlyObject{
 	objectType: "dmsMultiSyntaxErrorPosition",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.19",
 }
@@ -539,7 +539,7 @@ var DmsMultiSyntaxErrorPosition = readOnlyObject{
 // dmsMultiSyntaxError is ‘other(1)’.
 var DmsMultiOtherErrorDescription = readOnlyObject{
 	objectType: "dmsMultiOtherErrorDescription",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.20",
 }
@@ -551,7 +551,7 @@ var DmsMultiOtherErrorDescription = readOnlyObject{
 // disables pixel service.
 var VmsPixelServiceDuration = readAndWriteObject{
 	objectType: "vmsPixelServiceDuration",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.21",
 }
@@ -562,7 +562,7 @@ var VmsPixelServiceDuration = readAndWriteObject{
 // period.
 var VmsPixelServiceFrequency = readAndWriteObject{
 	objectType: "vmsPixelServiceFrequency",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.22",
 }
@@ -571,7 +571,7 @@ var VmsPixelServiceFrequency = readAndWriteObject{
 // occur. Time is expressed in minutes from the epoch of Midnight of each day.
 var VmsPixelServiceTime = readAndWriteObject{
 	objectType: "vmsPixelServiceTime",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.23",
 }
@@ -612,7 +612,7 @@ var DmsActivateErrorMsgCode = readOnlyObject{
 // to determine the precise error.
 var DmsActivateMessageState = readOnlyObject{
 	objectType: "dmsActivateMessageState",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.6.25",
 }

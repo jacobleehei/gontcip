@@ -20,7 +20,7 @@ message error status functions that are common to DMS devices.
 //   The bits are defined as follows:
 var ShortErrorStatus = readOnlyObject{
 	objectType: "shortErrorStatus",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.9.7.1",
 }

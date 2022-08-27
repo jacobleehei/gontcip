@@ -44,7 +44,7 @@ var MessageObjects = []Reader{
 // the messages that must be supported.
 var DmsNumPermanentMsg = dmsMessageParameters{
 	objectType: "dmsNumPermanentMsg",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.1",
 }
@@ -53,7 +53,7 @@ var DmsNumPermanentMsg = dmsMessageParameters{
 // changeable memory. For CMS and BOS, this number shall be zero (0).
 var DmsNumChangeableMsg = readOnlyObject{
 	objectType: "dmsNumChangeableMsg",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.2",
 }
@@ -65,7 +65,7 @@ var DmsNumChangeableMsg = readOnlyObject{
 // the messages that must be supported.
 var DmsMaxChangeableMsg = readOnlyObject{
 	objectType: "dmsMaxChangeableMsg",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.3",
 }
@@ -76,7 +76,7 @@ var DmsMaxChangeableMsg = readOnlyObject{
 // the total memory that must be provided.
 var DmsFreeChangeableMemory = readOnlyObject{
 	objectType: "dmsFreeChangeableMemory",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.4",
 }
@@ -85,7 +85,7 @@ var DmsFreeChangeableMemory = readOnlyObject{
 // volatile, changeable memory. For CMS and BOS, this number shall be zero (0).
 var DmsNumVolatileMsg = readOnlyObject{
 	objectType: "dmsNumVolatileMsg",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.5",
 }
@@ -97,7 +97,7 @@ var DmsNumVolatileMsg = readOnlyObject{
 // the messages that must be supported.
 var DmsMaxVolatileMsg = readOnlyObject{
 	objectType: "dmsMaxVolatileMsg",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.6",
 }
@@ -108,7 +108,7 @@ var DmsMaxVolatileMsg = readOnlyObject{
 // the total memory that must be provided.
 var DmsFreeVolatileMemory = readOnlyObject{
 	objectType: "dmsFreeVolatileMemory",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.7",
 }
@@ -158,7 +158,7 @@ var DmsFreeVolatileMemory = readOnlyObject{
 //   activation priority of the MessageActivationCode.
 var DmsMessageMemoryType = readOnlyObject{
 	objectType: "dmsMessageMemoryType",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.1",
 }
@@ -170,7 +170,7 @@ var DmsMessageMemoryType = readOnlyObject{
 // compliant devices must support all 255 of these 'blank' rows.
 var DmsMessageNumber = readOnlyObject{
 	objectType: "dmsMessageNumber",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.2",
 }
@@ -211,7 +211,7 @@ var DmsMessageOwner = dmsMessageParameters{
 // be returned (regardless whether this message is actually being displayed).
 var DmsMessageCRC = readOnlyObject{
 	objectType: "dmsMessageCRC",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.5",
 }
@@ -228,7 +228,7 @@ var DmsMessageCRC = readOnlyObject{
 // dmsMessageBeacon setting of the factory-preset value in response to a GET-request.
 var DmsMessageBeacon = dmsMessageParameters{
 	objectType: "dmsMessageBeacon",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.6",
 }
@@ -246,7 +246,7 @@ var DmsMessageBeacon = dmsMessageParameters{
 // GET-request.
 var DmsMessagePixelService = dmsMessageParameters{
 	objectType: "dmsMessagePixelService",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.7",
 }
@@ -263,7 +263,7 @@ var DmsMessagePixelService = dmsMessageParameters{
 // a GET-request.
 var DmsMessageRunTimePriority = dmsMessageParameters{
 	objectType: "dmsMessageRunTimePriority",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.8",
 }
@@ -288,7 +288,7 @@ func (m messageStatusFormat) Int() int { return int(m) }
 
 var DmsMessageStatus = dmsMessageParameters{
 	objectType: "dmsMessageStatus",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.8.1.9",
 }
@@ -311,7 +311,7 @@ func (m dmsValidateMessageFormat) Int() int { return int(m) }
 // dmsMultiSyntaxErrorPosition and dmsMultiOtherErrorDescription objects.
 var DmsValidateMessageError = readOnlyObject{
 	objectType: "dmsValidateMessageError",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.5.9",
 }

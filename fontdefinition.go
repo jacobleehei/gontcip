@@ -31,7 +31,7 @@ var FontDefinitionObjects = []Reader{
 // fonts to determine the number of fonts that the DMS must support
 var NumFonts = readOnlyObject{
 	objectType: "numFonts",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.1",
 }
@@ -39,7 +39,7 @@ var NumFonts = readOnlyObject{
 // Indicates the row number of the entry
 var FontIndex = readOnlyObject{
 	objectType: "fontIndex",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.2.1.1",
 }
@@ -49,7 +49,7 @@ var FontIndex = readOnlyObject{
 // referenced by MULTI when specifying a particular font.
 var FontNumber = readAndWriteObject{
 	objectType: "fontNumber",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.2.1.2",
 }
@@ -72,7 +72,7 @@ var FontName = readAndWriteObject{
 // less.
 var FontHeight = readAndWriteObject{
 	objectType: "fontHeight",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.2.1.4",
 }
@@ -87,7 +87,7 @@ var FontHeight = readAndWriteObject{
 // See also the MULTI tag 'spacing character [sc]'.
 var FontCharSpacing = readAndWriteObject{
 	objectType: "fontCharSpacing",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.2.1.5",
 }
@@ -103,7 +103,7 @@ var FontCharSpacing = readAndWriteObject{
 // See also the MULTI tag 'new line [nl]'.
 var FontLineSpacing = readAndWriteObject{
 	objectType: "fontLineSpacing",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.2.1.6",
 }
@@ -195,7 +195,7 @@ var FontLineSpacing = readAndWriteObject{
 // 110011
 var FontVersionID = readOnlyObject{
 	objectType: "fontVersionID",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.2.1.7",
 }
@@ -229,7 +229,7 @@ var FontVersionID = readOnlyObject{
 // fonts while in this state shall generate SNMP GenErr.
 var FontStatus = readAndWriteObject{
 	objectType: "fontStatus",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.2.1.8",
 }
@@ -255,7 +255,7 @@ func (m fontStatusFormat) Int() int { return int(m) }
 // that can exist for any given font.
 var MaxFontCharacters = readOnlyObject{
 	objectType: "maxFontCharacters",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.3",
 }
@@ -265,7 +265,7 @@ var MaxFontCharacters = readOnlyObject{
 // the character giving the bitmap of 'A' would be characterNumber 65 (41 hex).
 var CharacterNumber = readOnlyObject{
 	objectType: "characterNumber",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.4.1.1",
 }
@@ -277,7 +277,7 @@ var CharacterNumber = readOnlyObject{
 // subrange this object to a range of zero (0) to vmsSignWidthPixels.
 var CharacterWidth = readAndWriteObject{
 	objectType: "characterWidth",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.3.4.1.2",
 }
@@ -314,7 +314,7 @@ var CharacterBitmap = readAndWriteObject{
 // number of pixels of the sign.
 var FontMaxCharacterSize = readOnlyObject{
 	objectType: "fontMaxCharacterSize",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "Multi-Configuration Objects",
 }

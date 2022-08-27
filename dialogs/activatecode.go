@@ -10,8 +10,8 @@ import (
 
 func EncodeActivateMessageCode(
 	// for calChecksum
-	mutiString string,
-	beacon, pixelservice int,
+	multiString string,
+	beacon, pixelService int,
 	// directly convert to hex
 	messageMemoryType, duration, priority, messageNumber int,
 	requestIPAddress string,
@@ -21,12 +21,12 @@ func EncodeActivateMessageCode(
 	ipAddressesInt2, _ := strconv.Atoi(fmt.Sprintf("%s", ipAddresses[1]))
 	ipAddressesInt3, _ := strconv.Atoi(fmt.Sprintf("%s", ipAddresses[2]))
 	ipAddressesInt4, _ := strconv.Atoi(fmt.Sprintf("%s", ipAddresses[3]))
-	checkSumOfMutiString := calcChecksum(mutiString, beacon, pixelservice)
+	checkSumOfMultiString := calcChecksum(multiString, beacon, pixelService)
 	activateMessageCode, _ := hex.DecodeString(fmt.Sprintf("%04X", duration) +
 		fmt.Sprintf("%02X", priority) +
 		fmt.Sprintf("%02X", messageMemoryType) +
 		fmt.Sprintf("%04X", messageNumber) +
-		fmt.Sprintf("%04X", checkSumOfMutiString) +
+		fmt.Sprintf("%04X", checkSumOfMultiString) +
 		fmt.Sprintf("%02X", ipAddressesInt1) +
 		fmt.Sprintf("%02X", ipAddressesInt2) +
 		fmt.Sprintf("%02X", ipAddressesInt3) +
@@ -35,8 +35,8 @@ func EncodeActivateMessageCode(
 	return activateMessageCode, nil
 }
 
-func calcChecksum(mutiString string, beacon int, pixelservice int) int {
-	data := []byte(mutiString)
+func calcChecksum(multiString string, beacon int, pixelService int) int {
+	data := []byte(multiString)
 
 	additionalData := []byte{0x00, 0x00}
 	if beacon == 1 {

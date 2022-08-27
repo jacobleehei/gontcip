@@ -14,7 +14,7 @@ dmsStatus OBJECT IDENTIFIER ::= { dms 9 }
 // statMultiFieldRows-object.
 var StatMultiFieldRows = readOnlyObject{
 	objectType: "statMultiFieldRows",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.9.1",
 }
@@ -23,7 +23,7 @@ var StatMultiFieldRows = readOnlyObject{
 // the field within the MULTI-string.
 var StatMultiFieldIndex = readOnlyObject{
 	objectType: "statMultiFieldIndex",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.9.2.1.1",
 }

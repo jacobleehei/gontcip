@@ -50,7 +50,7 @@ var IlluminationObjects = []Reader{
 
 var DmsIllumControl = readAndWriteObject{
 	objectType: "dmsIllumControl",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.7.1",
 }
@@ -59,7 +59,7 @@ var DmsIllumControl = readAndWriteObject{
 // dmsIllumPhotocellLevelStatus-object
 var DmsIllumMaxPhotocellLevel = readOnlyObject{
 	objectType: "dmsIllumMaxPhotocellLevel",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.7.2",
 }
@@ -74,7 +74,7 @@ var DmsIllumMaxPhotocellLevel = readOnlyObject{
 // accommodate various hardware needs.
 var DmsIllumPhotocellLevelStatus = readOnlyObject{
 	objectType: "dmsIllumPhotocellLevelStatus",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.7.3",
 }
@@ -86,7 +86,7 @@ var DmsIllumPhotocellLevelStatus = readOnlyObject{
 // dmsIllumBrightnessValues object.
 var DmsIllumNumBrightLevels = readOnlyObject{
 	objectType: "dmsIllumNumBrightLevels",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.7.4",
 }
@@ -96,7 +96,7 @@ var DmsIllumNumBrightLevels = readOnlyObject{
 // object (Brightest).
 var DmsIllumBrightLevelStatus = readOnlyObject{
 	objectType: "dmsIllumBrightLevelStatus",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.7.5",
 }
@@ -117,7 +117,7 @@ var DmsIllumBrightLevelStatus = readOnlyObject{
 // vendor to determine which way is implemented)
 var DmsIllumManLevel = readAndWriteObject{
 	objectType: "dmsIllumManLevel",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.7.6",
 }
@@ -192,7 +192,7 @@ var DmsIllumBrightnessValues = readAndWriteObject{
 //      data not described by the other options.
 var DmsIllumBrightnessValuesError = readOnlyObject{
 	objectType: "dmsIllumBrightnessValuesError",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.7.8",
 }
@@ -201,7 +201,7 @@ var DmsIllumBrightnessValuesError = readOnlyObject{
 // 0 (darkest) to 65535 (maximum output).
 var DmsIllumLightOutputStatus = readOnlyObject{
 	objectType: "dmsIllumLightOutputStatus",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.7.9",
 }

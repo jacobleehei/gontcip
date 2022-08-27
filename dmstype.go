@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	INTERGER       = gosnmp.Integer
+	INTEGER        = gosnmp.Integer
 	OCTET_STRING   = gosnmp.OctetString
 	DISPLAY_STRING = gosnmp.BitString
 )

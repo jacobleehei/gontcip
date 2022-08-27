@@ -25,7 +25,7 @@ var VMSConfigurationObjects = []Reader{
 // which implies a full-matrix sign
 var VmsCharacterHeightPixels = readOnlyObject{
 	objectType: "vmsCharacterHeightPixels",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.2.1",
 }
@@ -35,7 +35,7 @@ var VmsCharacterHeightPixels = readOnlyObject{
 // width, which implies either a full-matrix or line-matrix sign.
 var VmsCharacterWidthPixels = readOnlyObject{
 	objectType: "vmsCharacterWidthPixels",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.2.2",
 }
@@ -43,7 +43,7 @@ var VmsCharacterWidthPixels = readOnlyObject{
 //Indicates the number of rows of pixels for the entire sign.
 var VmsSignHeightPixels = readOnlyObject{
 	objectType: "vmsSignHeightPixels",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.2.3",
 }
@@ -51,7 +51,7 @@ var VmsSignHeightPixels = readOnlyObject{
 //Indicates the number of columns of pixels for the entire sign.
 var VmsSignWidthPixels = readOnlyObject{
 	objectType: "vmsSignWidthPixels",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.2.4",
 }
@@ -62,7 +62,7 @@ var VmsSignWidthPixels = readOnlyObject{
 // but does apply to the distance between pixels within a character.
 var VmsHorizontalPitch = readOnlyObject{
 	objectType: "vmsHorizontalPitch",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.2.5",
 }
@@ -75,7 +75,7 @@ var VmsHorizontalPitch = readOnlyObject{
 // the distance between pixels within a character.
 var VmsVerticalPitch = readOnlyObject{
 	objectType: "vmsVerticalPitch",
-	syntax:     INTERGER,
+	syntax:     INTEGER,
 	status:     MANDATORY,
 	identifier: "1.3.6.1.4.1.1206.4.2.3.2.6",
 }
