@@ -72,12 +72,4 @@ GoDMS has the Following functions for NTCIP-DMS Diaglogs.
 go get github.com/jacobleehei/godms
 ```
 
-<!-- ## :memo: License
-
-This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file. -->
-
-Made with :heart: by <a href="https://github.com/jacobleehei/godms" target="_blank">Jacob Lee</a>
-
-&#xa0;
-
 <a href="#top">Back to top</a>
