@@ -38,10 +38,7 @@ func EncodeActivateMessageCode(
 func calcChecksum(multiString string, beacon int, pixelService int) int {
 	data := []byte(multiString)
 
-	additionalData := []byte{0x00, 0x00}
-	if beacon == 1 {
-		additionalData = []byte{0x01, 0x00}
-	}
+	additionalData := []byte{byte(beacon), byte(pixelService)}
 	data = append(data, additionalData...)
 
 	b := make([]byte, 2)
