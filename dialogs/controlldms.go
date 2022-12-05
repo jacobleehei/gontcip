@@ -163,7 +163,7 @@ func ActivatingMessage(
 		}
 
 		if activeResult.DmsActivateMsgError != "syntaxMULTI" {
-			return
+			return activeResult, errors.Wrap(errors.New(setResult.Error.String()), "error")
 		}
 
 		// e) If dmsActivateMsgError equals 'syntaxMULTI' then the management station shall GET the following
