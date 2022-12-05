@@ -2,6 +2,7 @@ package dialogs
 
 import (
 	"encoding/hex"
+	"log"
 	"testing"
 )
 
@@ -48,6 +49,36 @@ func TestEncodeActivateMessageCode(t *testing.T) {
 			wanted, _ := hex.DecodeString(tt.want)
 			if string(got) != string(wanted) {
 				t.Errorf("EncodeActivateMessageCode() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_calcChecksum(t *testing.T) {
+	type args struct {
+		multiString  string
+		beacon       int
+		pixelService int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		// TODO: Add test cases.
+		{
+			name: "Normal",
+			args: args{
+				multiString:  "[g1][g1][fo2][jl]TEST TEST TEST[nl][jl]TEST TEST TEST[nl][jl]TEST TEST TEST[nl][fo6][hc6e2c][hc8a66][hc9032][hc884c][hc4e2d][hc0020][hc6e2c][hc8a66][hc9032][hc884c][hc4e2d]",
+				beacon:       1,
+				pixelService: 0,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := calcChecksum(tt.args.multiString, tt.args.beacon, tt.args.pixelService); got != tt.want {
+				log.Println(got)
 			}
 		})
 	}

@@ -10,13 +10,38 @@ import (
 )
 
 var test_dms = &gosnmp.GoSNMP{
-	Target:    "192.168.100.75",
-	Port:      2929,
-	Community: "public",
-	Timeout:   2 * time.Second,
-	Retries:   1,
-	Version:   gosnmp.Version1,
-	MaxOids:   500,
+	Conn:               nil,
+	Target:             "10.0.11.41",
+	Port:               1000,
+	Transport:          "tcp",
+	Community:          "Public",
+	Version:            gosnmp.Version1,
+	Context:            nil,
+	Timeout:            3 * time.Second,
+	Retries:            5,
+	ExponentialTimeout: false,
+	Logger:             gosnmp.Logger{},
+	PreSend: func(*gosnmp.GoSNMP) {
+	},
+	OnSent: func(*gosnmp.GoSNMP) {
+	},
+	OnRecv: func(*gosnmp.GoSNMP) {
+	},
+	OnRetry: func(*gosnmp.GoSNMP) {
+	},
+	OnFinish: func(*gosnmp.GoSNMP) {
+	},
+	MaxOids:                 500,
+	MaxRepetitions:          0,
+	NonRepeaters:            0,
+	UseUnconnectedUDPSocket: false,
+	LocalAddr:               "",
+	AppOpts:                 map[string]interface{}{},
+	MsgFlags:                0,
+	SecurityModel:           0,
+	SecurityParameters:      nil,
+	ContextEngineID:         "",
+	ContextName:             "",
 }
 
 func TestActivatingMessage(t *testing.T) {
@@ -42,7 +67,7 @@ func TestActivatingMessage(t *testing.T) {
 				duration:          65535,
 				priority:          255,
 				messageMemoryType: 3,
-				messageNumber:     11,
+				messageNumber:     6,
 			},
 			wantErr:    false,
 			wantResult: activatingMessageResult{},
@@ -56,8 +81,9 @@ func TestActivatingMessage(t *testing.T) {
 				return
 			}
 			if !reflect.DeepEqual(gotResult, tt.wantResult) {
-				t.Errorf("RetrievingMessage() = %v, want %v", gotResult, tt.wantResult)
+				t.Errorf("ActivatingMessage() = %v, want %v", gotResult, tt.wantResult)
 			}
+			log.Println(gotResult)
 		})
 	}
 }
@@ -67,7 +93,7 @@ func TestDefiningMessage(t *testing.T) {
 		dms               *gosnmp.GoSNMP
 		messageMemoryType int
 		messageNumber     int
-		mutiString        string
+		multiString       string
 		ownerAddress      string
 		priority          int
 		beacon            int
@@ -85,8 +111,8 @@ func TestDefiningMessage(t *testing.T) {
 			args: args{
 				dms:               test_dms,
 				messageMemoryType: 3,
-				messageNumber:     11,
-				mutiString:        "TESTING[nl]",
+				messageNumber:     3,
+				multiString:       "[jl3][nl][jl3][nl][jl3][nl][fo6]",
 				ownerAddress:      "127.0.0.1",
 				priority:          255,
 				beacon:            0,
@@ -97,7 +123,7 @@ func TestDefiningMessage(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotDefineResult, err := DefiningMessage(tt.args.dms, tt.args.messageMemoryType, tt.args.messageNumber, tt.args.mutiString, tt.args.ownerAddress, tt.args.priority, tt.args.beacon, tt.args.pixelService)
+			gotDefineResult, err := DefiningMessage(tt.args.dms, tt.args.messageMemoryType, tt.args.messageNumber, tt.args.multiString, tt.args.ownerAddress, tt.args.priority, tt.args.beacon, tt.args.pixelService)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefiningMessage() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -125,7 +151,7 @@ func TestRetrievingMessage(t *testing.T) {
 			args: args{
 				dms:               test_dms,
 				messageMemoryType: 3,
-				messageNumber:     1,
+				messageNumber:     6,
 			},
 			wantResult: retrievingResult{},
 			wantErr:    false,
@@ -141,4 +167,23 @@ func TestRetrievingMessage(t *testing.T) {
 			log.Println(gotResult)
 		})
 	}
+}
+
+func TestGetSnmp(t *testing.T) {
+	t.Run("Get Snmp", func(t *testing.T) {
+		test_dms.Connect()
+		result, err := test_dms.Get([]string{"1.3.6.1.4.1.1206.4.2.3.6.17"})
+		if err != nil {
+			t.Errorf(err.Error())
+			return
+		}
+		if result.Error.String() != "NoError" {
+			t.Errorf(result.Error.String())
+			return
+		}
+		for _, value := range result.Variables {
+			log.Println(value.Name, value.Type.String(), value.Value)
+		}
+	})
+
 }
